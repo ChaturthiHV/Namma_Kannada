@@ -1,0 +1,15 @@
+{
+  "name": "namma-kannada",
+  "private": true,
+  "description": "Namma Kannada: client (Next.js) + server (Express/PostgreSQL)",
+  "scripts": {
+    "install:all": "npm --prefix client install && npm --prefix server install",
+    "db:migrate": "npm --prefix server run db:migrate",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm --prefix server run build && npm --prefix client run build",
+    "smoke": "npm --prefix server run smoke"
+  },
+  "devDependencies": { "concurrently": "^8.2.2" }
+}
