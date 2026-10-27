@@ -22,7 +22,7 @@ export default function Sidebar() {
  const p = usePathname(); const [l] = useLS('lang', 'en')
  return (
   <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-gradient-to-b from-maroon to-maroon2 text-white md:flex">
-   <div className="p-5"><div className="font-display text-2xl leading-none text-gold">Namma</div><div className="font-display text-4xl font-extrabold leading-none text-gold">Kannada</div><p className="mt-1 text-[9px] text-white/70">Different regions. Same heart. One Kannada.</p></div>
+   <div className="p-5"><img src="/logo.png" alt="Namma Karnataka" className="mb-2 h-14 w-14 object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,.4)]" /><div className="font-display text-1xl leading-none text-gold">ನಮ್ಮ</div><div className="font-display text-3xl font-extrabold leading-none text-gold">ಕನ್ನಡ</div><p className="mt-1 text-[9px] text-white/70">Different regions. Same heart. One Kannada.</p></div>
    <nav className="flex-1 space-y-0.5 overflow-y-auto px-3 pb-4">
     {NAV.map(([h, en, kn, Icon]) => (
      <Link key={h} href={h} className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition ${p === h ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><Icon size={17} />{l === 'kn' ? kn : en}</Link>

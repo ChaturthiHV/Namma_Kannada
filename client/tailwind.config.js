@@ -6,10 +6,10 @@ module.exports = {
       page: 'var(--bg-page)', surface: 'var(--surface-1)', surface2: 'var(--surface-2)',
       border: 'var(--border)', ink: 'var(--text)', muted: 'var(--text-muted)',
       primary: 'var(--primary)', onprimary: 'var(--on-primary)',
-      maroon: 'var(--maroon)', maroon2: 'var(--maroon-2)', gold: '#ffc21a',
+      maroon: 'var(--maroon)', maroon2: 'var(--maroon-2)', gold: '#ffc21a', danger: '#dc2626',
     },
     fontFamily: {
-      display: ['"Baloo Tamma 2"', '"Noto Serif Kannada"', 'serif'],
+      display: ['"Baloo Tamma 2"', '"Noto Sans Kannada"', '"Noto Serif Kannada"', 'serif'],
       kn: ['"Noto Sans Kannada"', 'sans-serif'],
       sans: ['Inter', 'sans-serif'],
     },
