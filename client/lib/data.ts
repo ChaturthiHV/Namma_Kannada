@@ -1,13 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { API, api, pushState } from './api'
+import { REGION_PATHS } from './karnataka-geo'
+import { SENTENCE_ENTRIES } from './sentences'
 export const REGIONS = [
- { id: 'mysuru', n: 'Mysuru', c: '#e0452b', note: 'Mysuru, Mandya, Chamarajanagar', w: 420, p: 'M120 190 L170 175 L190 215 L150 245 L115 225Z' },
- { id: 'coastal', n: 'Coastal Karnataka', c: '#f08a24', note: 'Dakshina Kannada, Udupi, Uttara Kannada', w: 310, p: 'M70 110 L100 120 L105 190 L90 230 L70 180Z' },
- { id: 'north', n: 'North Karnataka', c: '#f7c325', note: 'Dharwad, Belagavi, Vijayapura', w: 260, p: 'M120 20 L180 15 L200 70 L150 95 L110 60Z' },
- { id: 'malnad', n: 'Malnad', c: '#8e1015', note: 'Shivamogga, Chikkamagaluru', w: 120, p: 'M100 120 L150 110 L165 170 L120 190 L105 165Z' },
- { id: 'hk', n: 'Hyderabad-Karnataka', c: '#f59e0b', note: 'Kalaburagi, Raichur, Ballari', w: 60, p: 'M150 95 L200 70 L230 120 L190 150 L155 130Z' },
- { id: 'kodagu', n: 'Kodagu Borders', c: '#f4795f', note: 'Kodagu, Hassan border', w: 40, p: 'M115 225 L150 245 L140 275 L105 255Z' },
+  { id: 'north', n: 'Dharwad–North Karnataka Kannada', c: '#f7c325', note: 'Belagavi, Bagalkote, Vijayapura, Dharwad, Gadag, Haveri, parts of Uttara Kannada and Ballari (map also places Davanagere, Chitradurga here)', w: 260, p: REGION_PATHS.north },
+  { id: 'hk', n: 'Kalaburagi–Hyderabad Karnataka Kannada', c: '#f59e0b', note: 'Kalaburagi, Bidar, Yadgir, Raichur, Koppal, parts of Vijayanagara and Ballari', w: 60, p: REGION_PATHS.hk },
+  { id: 'mysuru', n: 'Mysuru–Southern Kannada', c: '#e0452b', note: 'Mysuru, Mandya, Chamarajanagar, Hassan, Tumakuru, Ramanagara, Chikkaballapur, Kolar', w: 420, p: REGION_PATHS.mysuru },
+  { id: 'bengaluru', n: 'Bengaluru Kannada', c: '#7c3aed', note: 'Bengaluru Urban, Bengaluru Rural; urban colloquial speech shaped by multilingual communities (also spills into Ramanagara, Kolar, Chikkaballapur)', w: 200, p: REGION_PATHS.bengaluru },
+  { id: 'coastal', n: 'Coastal Kannada (Karavali Kannada)', c: '#0e8fa3', note: 'Dakshina Kannada, Udupi, coastal Uttara Kannada; Mangaluru Kannada, Kundagannada', w: 310, p: REGION_PATHS.coastal },
+  { id: 'malnad', n: 'Malenadu Kannada', c: '#2f8f4e', note: 'Shivamogga, Chikkamagaluru, Kodagu, parts of Hassan and Uttara Kannada; Havyaka Kannada', w: 120, p: REGION_PATHS.malnad },
 ]
 // PLACEHOLDER seed data: must be verified by native speakers before the demo.
 const E = (i, c, en, region, kn, rom, status = 'verified') => ({ id: 'e' + i, concept: c, en, region, kn, rom, status, ctx: 'Everyday' })
@@ -27,6 +29,7 @@ export const ENTRIES = [
  E(13, 'c5', 'Salt', 'coastal', 'ಉಪ್ಪು', 'Uppu'),
  E(14, 'c6', 'Water', 'mysuru', 'ನೀರು', 'Neeru'),
  E(15, 'c6', 'Water', 'coastal', 'ನೀರ್', 'Neer'),
+ ...SENTENCE_ENTRIES,
 ]
 export function useLS<T>(k: string, init: T): [T, (v: T) => void] {
  const [v, s] = useState<T>(init)

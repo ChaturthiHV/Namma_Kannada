@@ -6,8 +6,8 @@ import { useLS } from '@/lib/data'
 export const NAV = [
  ['/', 'Home', 'ಮುಖಪುಟ', Home], ['/map', 'Explore Karnataka Map', 'ನಕ್ಷೆ', MapPin], ['/battle', 'Dialect Battle', 'ಉಪಭಾಷೆ ಸ್ಪರ್ಧೆ', Swords],
  ['/speak', 'Speak Like a Local', 'ಸ್ಥಳೀಯರಂತೆ ಮಾತು', Mic], ['/detective', 'Dialect Detective', 'ಉಪಭಾಷೆ ಪತ್ತೇದಾರ', Search], ['/contribute', 'Contribute a Word', 'ಪದ ಕೊಡುಗೆ', PlusSquare],
- ['/admin', 'Admin Verification', 'ಪರಿಶೀಲನೆ', ShieldCheck], ['/search', 'Smart Search', 'ಹುಡುಕಾಟ', Sparkles], ['/stories', 'Stories Behind Words', 'ಪದದ ಕಥೆ', BookMarked],
- ['/passport', 'Dialect Passport', 'ಪಾಸ್‌ಪೋರ್ಟ್', Stamp], ['/talk', 'Talk to a Local', 'ಸ್ಥಳೀಯರೊಂದಿಗೆ ಮಾತು', MessagesSquare], ['/voices', 'Voice Gallery', 'ಧ್ವನಿ ಗ್ಯಾಲರಿ', Users],
+ ['/search', 'Smart Search', 'ಹುಡುಕಾಟ', Sparkles],
+ ['/talk', 'Talk to a Local', 'ಸ್ಥಳೀಯರೊಂದಿಗೆ ಮಾತು', MessagesSquare], ['/voices', 'Voice Gallery', 'ಧ್ವನಿ ಗ್ಯಾಲರಿ', Users],
  ['/living', 'Living Language Map', 'ಜೀವಂತ ನಕ್ಷೆ', Flame], ['/journey', 'Learning Journey', 'ಕಲಿಕೆಯ ಪಯಣ', BookOpen], ['/about', 'About', 'ಬಗ್ಗೆ', Info],
 ] as any[]
 export default function Sidebar() {

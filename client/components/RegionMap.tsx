@@ -1,12 +1,13 @@
 'use client'
 import { REGIONS } from '@/lib/data'
 import { useUser, pinFor } from '@/lib/auth'
+import { DISTRICT_GEO, MAP_VIEWBOX } from '@/lib/karnataka-geo'
 export default function RegionMap({ sel, onPick, done = [], heat = false, me, className = 'mx-auto h-80' }: any) {
   const u = useUser(); const m = heat ? null : (me ?? u)
   const max = Math.max(...REGIONS.map(r => r.w))
   const pin = m?.region ? pinFor(m.region, m.district) : null
   return (
-    <svg viewBox="40 0 220 300" className={className} role="group" aria-label="Karnataka dialect regions">
+    <svg viewBox={MAP_VIEWBOX} className={className} role="group" aria-label="Karnataka dialect regions">
       {REGIONS.map(r => {
         const mine = m?.region === r.id
         return (
@@ -17,6 +18,9 @@ export default function RegionMap({ sel, onPick, done = [], heat = false, me, cl
             style={{ filter: done.includes(r.id) ? 'drop-shadow(0 0 6px #ffc21a)' : undefined }} />
         )
       })}
+      <g pointerEvents="none" fill="none" stroke="var(--text)" strokeOpacity="0.35" strokeWidth="0.4">
+        {Object.entries(DISTRICT_GEO).map(([n, g]) => <path key={n} d={g.p} />)}
+      </g>
       {pin && m && (
         <g pointerEvents="none">
           <circle cx={pin[0]} cy={pin[1]} r="5" fill="none" stroke="#ffc21a" strokeWidth="2"><animate attributeName="r" values="5;16" dur="1.6s" repeatCount="indefinite" /><animate attributeName="opacity" values="1;0" dur="1.6s" repeatCount="indefinite" /></circle>

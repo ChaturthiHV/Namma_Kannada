@@ -1,16 +1,17 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { REGIONS } from './data'
+import { DISTRICT_GEO } from './karnataka-geo'
 import { API, api, setAuth, getToken, getApiUser, syncDown, clearSynced } from './api'
 
 // Districts grouped by the six dialect areas (approximate: dialects are a continuum, not district-bound).
 export const DISTRICTS: Record<string, string[]> = {
-  mysuru: ['Mysuru', 'Mandya', 'Chamarajanagar', 'Bengaluru Urban', 'Bengaluru Rural', 'Ramanagara', 'Tumakuru', 'Chikkaballapura', 'Kolar'],
+  north: ['Belagavi', 'Bagalkot', 'Vijayapura', 'Dharwad', 'Gadag', 'Haveri', 'Davanagere', 'Chitradurga'],
+  hk: ['Kalaburagi', 'Bidar', 'Yadgir', 'Raichur', 'Koppal', 'Ballari', 'Vijayanagara'],
+  mysuru: ['Mysuru', 'Mandya', 'Chamarajanagar', 'Hassan', 'Tumakuru', 'Ramanagara', 'Chikkaballapura', 'Kolar'],
+  bengaluru: ['Bengaluru Urban', 'Bengaluru Rural'],
   coastal: ['Dakshina Kannada', 'Udupi', 'Uttara Kannada'],
-  north: ['Belagavi', 'Dharwad', 'Vijayapura', 'Bagalkot', 'Gadag', 'Haveri', 'Davanagere', 'Chitradurga'],
-  malnad: ['Shivamogga', 'Chikkamagaluru'],
-  hk: ['Kalaburagi', 'Raichur', 'Ballari', 'Bidar', 'Yadgir', 'Koppal', 'Vijayanagara'],
-  kodagu: ['Kodagu', 'Hassan'],
+  malnad: ['Shivamogga', 'Chikkamagaluru', 'Kodagu'],
 }
 export type User = { name: string; phone: string; region: string; district: string }
 type Stored = User & { hash: string }
@@ -61,9 +62,10 @@ export function useUser() {
 }
 // Map pin position: centre of the dialect area, nudged per district so each district sits at its own spot.
 export function pinFor(region: string, district: string): [number, number] {
-  const r = REGIONS.find(x => x.id === region); if (!r) return [150, 150]
+  const g = DISTRICT_GEO[district === 'Vijayanagara' ? 'Ballari' : district]
+  if (g) return g.c
+  const r = REGIONS.find(x => x.id === region); if (!r) return [90, 140]
   const n = (r.p.match(/-?\d+(\.\d+)?/g) || []).map(Number); let x = 0, y = 0, c = 0
   for (let i = 0; i + 1 < n.length; i += 2) { x += n[i]; y += n[i + 1]; c++ }
-  const i = Math.max(0, (DISTRICTS[region] || []).indexOf(district)), a = i * 2.4
-  return [x / c + Math.cos(a) * (i ? 9 : 0), y / c + Math.sin(a) * (i ? 9 : 0)]
+  return [x / c, y / c]
 }

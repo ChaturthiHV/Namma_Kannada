@@ -6,8 +6,8 @@ import { useUser } from '@/lib/auth'
 import RegionMap from './RegionMap'
 export default function RegionExplorer() {
   const u = useUser(); const [sel, setSel] = useState('mysuru')
-  useEffect(() => { if (u) setSel(u.region) }, [u?.region])
-  const cur = REGIONS.find(r => r.id === sel)!
+  useEffect(() => { if (u && REGIONS.some(r => r.id === u.region)) setSel(u.region) }, [u?.region])
+  const cur = REGIONS.find(r => r.id === sel) ?? REGIONS[0]
   return (
     <section className="rounded-2xl bg-surface p-5 shadow-card">
       <h2 className="font-display text-2xl font-bold text-maroon dark:text-gold">Explore by Region</h2>

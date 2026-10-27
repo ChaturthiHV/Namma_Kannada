@@ -17,6 +17,8 @@ body { background: var(--bg-page); color: var(--text); font-family: Inter, sans-
 [data-theme="dark"] .font-kn { font-weight: 500; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+/* No focus box around clicked map regions */
+svg path, svg path:focus, svg path:focus-visible { outline: none !important; -webkit-tap-highlight-color: transparent; }
 @layer components{
 .card{@apply rounded-2xl bg-surface p-5 shadow-card border border-border}
 .btn{@apply inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-onprimary shadow-glow transition active:scale-95}

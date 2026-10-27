@@ -5,7 +5,7 @@ import { PageHead, Play, Phrase } from '@/components/ui'
 import { REGIONS, useEntries, useLS } from '@/lib/data'
 export default function MapPage() {
  const { all } = useEntries(); const [sel, setSel] = useState('mysuru'); const [done, setDone] = useLS<string[]>('explored', [])
- const r = REGIONS.find(x => x.id === sel)!; const list = all.filter(e => e.region === sel)
+ const r = REGIONS.find(x => x.id === sel) ?? REGIONS[0]; const list = all.filter(e => e.region === sel)
  const pick = (id: string) => { setSel(id); if (!done.includes(id)) setDone([...done, id]) }
  return (
   <div className="p-5"><PageHead en="Explore Karnataka Map" kn="ಕರ್ನಾಟಕ ನಕ್ಷೆ" sub="Dialects are a continuum; regions are dialect areas, not hard borders." />
