@@ -54,6 +54,28 @@ export async function requestOtp(phone: string): Promise<{ error?: string; devCo
   try { const d = await api('/auth/otp/request', { method: 'POST', json: { phone } }); return { devCode: d.devCode } } catch (e: any) { return { error: e.status ? e.message : 'Cannot reach the server.' } }
 }
 export const resetPassword = (phone: string, code: string, password: string) => remote('/auth/reset-password', { phone, code, password })
+export async function updateProfile(d: { name?: string; region?: string; district?: string }): Promise<string | null> {
+  if (API) {
+    try {
+      const { user } = await api('/me', { method: 'PATCH', json: d })
+      const token = getToken()
+      if (token && user) setAuth(token, user)
+      notify()
+      return null
+    } catch (e: any) { return e.status ? e.message : 'Cannot reach the server. Please try again.' }
+  }
+  try {
+    const p = localStorage.getItem(S)
+    if (!p) return 'Not logged in'
+    const list = users()
+    const idx = list.findIndex(x => x.phone === p)
+    if (idx === -1) return 'User not found'
+    list[idx] = { ...list[idx], ...d }
+    localStorage.setItem(U, JSON.stringify(list))
+    notify()
+    return null
+  } catch { return 'Failed to save changes.' }
+}
 export function logout() { if (API) { setAuth(null); clearSynced() } else localStorage.removeItem(S); notify() }
 export function useUser() {
   const [u, s] = useState<User | null>(null)

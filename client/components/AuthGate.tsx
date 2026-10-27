@@ -13,14 +13,19 @@ const inp = 'w-full rounded-xl border border-border bg-surface2 py-2.5 pl-10 pr-
 const Field = ({ icon: I, ...p }: any) => <label className="relative block"><I size={16} className="absolute left-3 top-3 text-muted" /><input {...p} className={inp} /></label>
 
 export default function AuthGate({ children }: { children: React.ReactNode }) {
-  const [ready, setReady] = useState(false), [authed, setAuthed] = useState(false)
-  useEffect(() => { const r = () => setAuthed(!!getSession()); r(); setReady(true); window.addEventListener('nk:auth', r); return () => window.removeEventListener('nk:auth', r) }, [])
-  if (!ready) return <div className="min-h-screen bg-page" />
-  if (authed) return <><div className="flex min-h-screen"><Sidebar /><main className="safe-t min-w-0 flex-1 pb-28 md:pb-0">{children}</main></div><MobileNav /><SwRegister /></>
-  return <AuthScreen />
+  return (
+    <>
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <main className="safe-t min-w-0 flex-1 pb-28 md:pb-0">{children}</main>
+      </div>
+      <MobileNav />
+      <SwRegister />
+    </>
+  )
 }
 
-function AuthScreen() {
+export function AuthScreen({ onSuccess, compact = false }: { onSuccess?: () => void; compact?: boolean }) {
   const [mode, setMode] = useState<'login' | 'register' | 'reset'>('login'), [err, setErr] = useState(''), [busy, setBusy] = useState(false)
   const [f, setF] = useState({ name: '', phone: '', region: '', district: '', password: '', confirm: '' })
   const set = (k: string, v: string) => { setErr(''); setF(p => ({ ...p, [k]: v, ...(k === 'region' ? { district: '' } : {}) })) }
@@ -36,7 +41,7 @@ function AuthScreen() {
     }
     setBusy(true)
     const m = mode === 'login' ? await login(f.phone, f.password) : await register({ name: f.name.trim(), phone: f.phone, region: f.region, district: f.district, password: f.password })
-    setBusy(false); if (m) setErr(m)
+    setBusy(false); if (m) setErr(m); else onSuccess?.()
   }
   return (
     <div className="grid min-h-screen bg-page lg:grid-cols-[1fr_1.1fr]">

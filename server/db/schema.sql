@@ -88,14 +88,6 @@ create table if not exists entry_versions (
   created_at timestamptz not null default now()
 );
 
-create table if not exists cultural_notes (
-  id         uuid primary key default gen_random_uuid(),
-  entry_id   text not null references entries(id) on delete cascade,
-  story      text not null,
-  tags       text[] default '{}',
-  created_by uuid references users(id) on delete set null,
-  created_at timestamptz not null default now()
-);
 
 -- ---------- Audio (consent is mandatory) ----------
 create table if not exists audio (
@@ -148,7 +140,7 @@ create table if not exists moderation_log (
   created_at  timestamptz not null default now()
 );
 
--- ---------- Learning, passport, games ----------
+-- ---------- Learning, games ----------
 -- Generic per-user key/value state the frontend syncs (explored, learned, best, points).
 create table if not exists user_state (
   user_id    uuid references users(id) on delete cascade,
@@ -167,17 +159,6 @@ create table if not exists progress (
   primary key (user_id, entry_id)
 );
 
-create table if not exists stamps (
-  id        text primary key,
-  region_id text references regions(id) on delete cascade,
-  name      text not null
-);
-create table if not exists user_stamps (
-  user_id   uuid references users(id) on delete cascade,
-  stamp_id  text references stamps(id) on delete cascade,
-  earned_at timestamptz not null default now(),
-  primary key (user_id, stamp_id)
-);
 
 create table if not exists attempts (
   id         uuid primary key default gen_random_uuid(),

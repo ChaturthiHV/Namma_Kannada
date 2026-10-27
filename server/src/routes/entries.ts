@@ -40,10 +40,10 @@ r.get('/', optionalAuth, wrap(async (req, res) => {
 r.get('/:id', wrap(async (req, res) => {
   const { rows } = await q(`${ENTRY_SELECT} where e.id = $1`, [req.params.id])
   if (!rows[0]) throw new HttpError(404, 'Entry not found.')
-  const notes = await q('select id, story, tags from cultural_notes where entry_id = $1', [req.params.id])
   const variants = await q('select variant from spelling_variants where entry_id = $1', [req.params.id])
-  res.json({ entry: rows[0], notes: notes.rows, variants: variants.rows.map(v => v.variant) })
+  res.json({ entry: rows[0], variants: variants.rows.map(v => v.variant) })
 }))
+
 
 // ---- Contribute a word ------------------------------------------------------------
 const createSchema = z.object({
@@ -139,13 +139,5 @@ r.post('/:id/rollback', ...requireRole('reviewer', 'admin'), wrap(async (req, re
   res.json({ entry: rows[0] })
 }))
 
-// ---- Cultural notes ---------------------------------------------------------------
-r.post('/:id/notes', ...requireRole('reviewer', 'admin'), wrap(async (req, res) => {
-  const b = z.object({ story: z.string().trim().min(1).max(4000), tags: z.array(z.string().max(32)).max(10).optional() }).parse(req.body)
-  const { rows } = await q(
-    'insert into cultural_notes (entry_id, story, tags, created_by) values ($1,$2,$3,$4) returning id, story, tags',
-    [req.params.id, b.story, b.tags || [], req.user.id])
-  res.status(201).json({ note: rows[0] })
-}))
 
 export default r

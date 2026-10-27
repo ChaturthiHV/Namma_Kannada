@@ -57,12 +57,7 @@ r.put('/state/:key', wrap(async (req, res) => {
        on conflict (user_id, key) do update set value = excluded.value, updated_at = now()`,
       [uid, key, JSON.stringify(value)],
     )
-    // Mirror into the normalised tables so stamps, progress and leaderboards are queryable.
-    if (key === 'explored') {
-      await c.query(
-        `insert into user_stamps (user_id, stamp_id) select $1, s.id from stamps s where s.id = any($2::text[])
-         on conflict do nothing`, [uid, value])
-    } else if (key === 'learned') {
+    if (key === 'learned') {
       await c.query(
         `insert into progress (user_id, entry_id, learned) select $1, e.id, true from entries e where e.id = any($2::text[])
          on conflict (user_id, entry_id) do update set learned = true`, [uid, value])
@@ -71,16 +66,10 @@ r.put('/state/:key', wrap(async (req, res) => {
     } else if (key === 'points') {
       await c.query('update users set points = greatest(points, $2) where id = $1', [uid, value])
     }
+
     await touchActivity(uid, c)
   })
   res.json({ ok: true })
-}))
-
-r.get('/stamps', wrap(async (req, res) => {
-  const { rows } = await q(
-    `select s.id, s.name, s.region_id as "regionId", us.earned_at as "earnedAt", (us.user_id is not null) as earned
-     from stamps s left join user_stamps us on us.stamp_id = s.id and us.user_id = $1 order by s.name`, [req.user.id])
-  res.json({ stamps: rows, unlocked: rows.filter(x => x.earned).length, total: rows.length })
 }))
 
 export default r

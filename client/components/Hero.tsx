@@ -1,8 +1,12 @@
 'use client'
 import { motion } from 'framer-motion'
 import { Search, Volume2, User } from 'lucide-react'
+import Link from 'next/link'
 import ThemeToggle from './ThemeToggle'
+import { useUser } from '@/lib/auth'
+
 export default function Hero() {
+  const u = useUser()
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#ffe9a8] to-page min-h-[340px] dark:from-[#3a1410]">
       <div className="absolute right-[18%] top-10 h-44 w-44 rounded-full bg-gold/60 blur-sm" />
@@ -15,7 +19,10 @@ export default function Hero() {
       </svg>
       <div className="absolute right-5 top-5 flex items-center gap-3">
         <ThemeToggle />
-        <button className="flex items-center gap-2 rounded-lg bg-maroon px-5 py-2.5 text-sm font-semibold text-white shadow-card"><User size={16} />Login / Sign Up</button>
+        <Link href="/profile" className="flex items-center gap-2 rounded-lg bg-maroon px-4 py-2 text-sm font-semibold text-white shadow-card hover:bg-maroon2 transition">
+          <User size={16} />
+          <span>{u ? u.name.split(' ')[0] : 'Profile'}</span>
+        </Link>
       </div>
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="relative p-10 max-w-xl">
         <h1 className="font-display text-5xl font-extrabold leading-[1.05] text-maroon dark:text-gold">

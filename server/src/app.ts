@@ -15,7 +15,6 @@ import audio from './routes/audio'
 import corrections from './routes/corrections'
 import reports from './routes/reports'
 import attempts from './routes/attempts'
-import admin from './routes/admin'
 import misc from './routes/misc'
 import quiz from './routes/quiz'
 import scenarios from './routes/scenarios'
@@ -41,7 +40,6 @@ app.use('/api/entries', entries)
 app.use('/api/search', search)
 app.use('/api/reports', reports)
 app.use('/api/attempts', attempts)
-app.use('/api/admin', admin)
 app.use('/api/quiz', quiz)
 app.use('/api/scenarios', scenarios)
 app.use('/api/pronunciation', pronunciation)

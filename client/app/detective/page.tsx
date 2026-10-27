@@ -25,7 +25,7 @@ export default function Detective() {
   const o = [e.region, ...REGIONS.filter(r => r.id !== e.region).sort(() => Math.random() - 0.5).slice(0, 3).map(r => r.id)].sort(() => Math.random() - 0.5)
   setCur(e); setOpts(o); setUsed([...u, e.id]); setT(15); setRes('')
  }
- useEffect(() => { if (!cur || res) return; if (t <= 0) return ans(''); const i = setTimeout(() => setT(t - 1), 1000); return () => clearTimeout(i) })
+ useEffect(() => { if (!cur || res) return; if (t <= 0) { ans(''); return }; const i = setTimeout(() => setT(t - 1), 1000); return () => clearTimeout(i) })
  const ans = (r: string) => {
   if (API) { if (sent.current) return; sent.current = true } 
   if (API) return api('/quiz/answer', { method: 'POST', json: { sessionId: sid, region: r } }).then(d => {
