@@ -30,7 +30,7 @@ export default function Sidebar() {
                     <Link key={h} href={h} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm transition ${p === h ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><Icon size={17} />{l === 'kn' ? kn : en}</Link>
                 ))}
             </nav>
-            <div className="mt-auto space-y-0.5 px-3 pb-3 pt-2 [@media(max-height:700px)]:pb-1"><div className="mb-3 border-t border-white/15" /><LangToggle className="mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm text-white/85 transition hover:bg-white/10" />
+            <div className="mt-2 space-y-0.5 px-3 pb-3 pt-2 [@media(max-height:700px)]:pb-1"><div className="mb-3 border-t border-white/15" /><LangToggle className="mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm text-white/85 transition hover:bg-white/10" />
                 <Link href={ph} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm transition ${p === ph ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><PIcon size={17} />{l === 'kn' ? pkn : pen}</Link>
                 {u && <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 [@media(max-height:700px)]:py-[4px] text-left text-sm text-white/85 transition hover:bg-white/10"><LogOut size={17} />{t('Log out')}</button>}
             </div>
