@@ -21,7 +21,7 @@ export default function Hero() {
         src="/palace.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-2 w-[58%] max-w-[820px] select-none object-contain object-bottom drop-shadow-[0_6px_16px_rgba(122,26,26,0.35)] dark:drop-shadow-[0_0_22px_rgba(255,170,60,0.35)]"
+        className="pointer-events-none absolute bottom-0 right-2 w-[58%] max-w-[820px] select-none object-contain object-bottom"
       />
       <div className="absolute right-5 top-5 flex items-center gap-3">
         <ThemeToggle />
