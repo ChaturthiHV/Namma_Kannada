@@ -10,7 +10,6 @@
   "dependencies": {
     "framer-motion": "^11.0.0",
     "lucide-react": "^0.400.0",
-    "namma-kannada": "file:..",
     "next": "14.2.5",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
