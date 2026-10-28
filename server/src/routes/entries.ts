@@ -36,7 +36,7 @@ r.get('/', optionalAuth, wrap(async (req, res) => {
   const { rows } = await q(`${ENTRY_SELECT} ${where.length ? 'where ' + where.join(' and ') : ''} order by e.seq`, params)
   if (req.user) {
     const mine = new Set((await q('select entry_id from entry_votes where user_id = $1', [req.user.id])).rows.map((v: any) => v.entry_id))
-    rows.forEach((e: any) => { e.voted = mine.has(e.id) })
+    rows.forEach((e: any) => { e.voted = mine.has(e.id); e.mine = e.submittedBy === req.user.id })
   }
   res.json({ entries: rows })
 }))
