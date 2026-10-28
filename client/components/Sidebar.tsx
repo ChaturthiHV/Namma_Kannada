@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, MapPin, Swords, Mic, Search, PlusSquare, Sparkles, MessagesSquare, Users, Flame, BookOpen, User, LogOut } from 'lucide-react'
+import { Home, MapPin, Swords, Mic, Search, PlusSquare, Sparkles, MessagesSquare, Users, Flame, User, LogOut } from 'lucide-react'
 import { useLS } from '@/lib/data'
 import { useUser, logout } from '@/lib/auth'
 export const NAV = [
@@ -14,7 +14,7 @@ export const NAV = [
     ['/search', 'Smart Search', 'ಹುಡುಕಾಟ', Sparkles],
     ['/battle', 'Dialect Battle', 'ಉಪಭಾಷೆ ಸ್ಪರ್ಧೆ', Swords],
     ['/detective', 'Dialect Detective', 'ಉಪಭಾಷೆ ಪತ್ತೇದಾರ', Search],
-    ['/journey', 'Learning Journey', 'ಕಲಿಕೆಯ ಪಯಣ', BookOpen],
+
     ['/contribute', 'Contribute a Word', 'ಪದ ಕೊಡುಗೆ', PlusSquare],
 ] as any[]
 export const PROFILE = ['/profile', 'Profile', 'ಪ್ರೊಫೈಲ್', User] as any[]
