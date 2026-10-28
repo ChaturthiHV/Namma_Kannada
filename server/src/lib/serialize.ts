@@ -13,6 +13,7 @@ export const ENTRY_COLS = `
   e.example_translation as "exampleTranslation", e.version,
   e.submitted_by as "submittedBy", e.created_at as "createdAt",
   (select count(*)::int from audio a where a.entry_id = e.id) as "audioCount",
+  (select a.url from audio a where a.entry_id = e.id order by a.created_at desc limit 1) as "audioPath",
   (select count(*)::int from entry_votes v where v.entry_id = e.id) as votes`
 /** Approvals from speakers of the same dialect needed before a contribution is shown as verified. */
 export const VOTES_NEEDED = 10

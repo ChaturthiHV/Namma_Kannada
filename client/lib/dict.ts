@@ -43,8 +43,7 @@ export const DICT: Record<string, string> = {
   // living
   'Darker saffron = more contributions.': 'ಗಾಢ ಕೇಸರಿ = ಹೆಚ್ಚು ಕೊಡುಗೆಗಳು.', 'Contribution density': 'ಕೊಡುಗೆಗಳ ಸಾಂದ್ರತೆ', 'Help needed in {name}.': '{name} ಪ್ರದೇಶದಲ್ಲಿ ಸಹಾಯ ಬೇಕಿದೆ.', 'Add contribution': 'ಕೊಡುಗೆ ಸೇರಿಸಿ',
   // voices
-  'Same phrase, different voices. Audio uses device text-to-speech until real recordings are added.': 'ಒಂದೇ ವಾಕ್ಯ, ಬೇರೆ ಬೇರೆ ಧ್ವನಿಗಳು. ನಿಜವಾದ ಧ್ವನಿಮುದ್ರಣಗಳು ಬರುವವರೆಗೆ ಸಾಧನದ ಪಠ್ಯ-ಧ್ವನಿ ಬಳಕೆಯಾಗುತ್ತದೆ.',
-  'Elder, retired teacher': 'ಹಿರಿಯರು, ನಿವೃತ್ತ ಶಿಕ್ಷಕ', 'Student, 21': 'ವಿದ್ಯಾರ್ಥಿ, 21', 'Shopkeeper, 38': 'ಅಂಗಡಿಯವರು, 38', 'Farmer, 50': 'ರೈತ, 50',
+  'Same phrase, different voices. Tap play to hear each phrase; community recordings play when available.': 'ಕೇಳಲು ಪ್ಲೇ ಒತ್ತಿ; ಸಮುದಾಯದ ಧ್ವನಿಮುದ್ರಣ ಇದ್ದರೆ ಅದೇ ಕೇಳಿಸುತ್ತದೆ.',
   // speak
   'Listen, record, compare. Feedback is approximate, never pass/fail.': 'ಕೇಳಿ, ದಾಖಲಿಸಿ, ಹೋಲಿಸಿ. ಪ್ರತಿಕ್ರಿಯೆ ಅಂದಾಜು ಮಾತ್ರ, ಪಾಸ್/ಫೇಲ್ ಅಲ್ಲ.',
   'I consent to my recording being scored and, only if I press Share, played for the community.': 'ನನ್ನ ಧ್ವನಿಮುದ್ರಣಕ್ಕೆ ಅಂಕ ನೀಡಲು ಮತ್ತು ನಾನು ‘ಹಂಚಿಕೊಳ್ಳಿ’ ಒತ್ತಿದರೆ ಮಾತ್ರ ಸಮುದಾಯಕ್ಕೆ ಕೇಳಿಸಲು ನನ್ನ ಸಮ್ಮತಿ ಇದೆ.',
@@ -91,4 +90,14 @@ export const DICT: Record<string, string> = {
   'Set your dialect to see details about your Kannada.': 'ನಿಮ್ಮ ಕನ್ನಡದ ವಿವರಗಳನ್ನು ನೋಡಲು ಉಪಭಾಷೆ ಆರಿಸಿ.', 'Badges': 'ಬ್ಯಾಡ್ಜ್‌ಗಳು', 'earned': 'ಗಳಿಸಿದ', 'My contributions': 'ನನ್ನ ಕೊಡುಗೆಗಳು', 'Add a word': 'ಪದ ಸೇರಿಸಿ', 'approvals': 'ಅನುಮೋದನೆ',
   'You haven’t contributed yet. Share a word or phrase from your dialect!': 'ನೀವು ಇನ್ನೂ ಕೊಡುಗೆ ನೀಡಿಲ್ಲ. ನಿಮ್ಮ ಉಪಭಾಷೆಯ ಪದ ಅಥವಾ ವಾಕ್ಯವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ!', 'Keep going': 'ಮುಂದುವರಿಸಿ', 'Explore the map': 'ನಕ್ಷೆ ನೋಡಿ', 'Speak like a local': 'ಸ್ಥಳೀಯರಂತೆ ಮಾತು', 'Your Kannada, your district, your progress.': 'ನಿಮ್ಮ ಕನ್ನಡ, ನಿಮ್ಮ ಜಿಲ್ಲೆ, ನಿಮ್ಮ ಪ್ರಗತಿ.',
   'XP': 'XP',
+  // contribute: voice recording
+  'Record your voice (optional)': 'ನಿಮ್ಮ ಧ್ವನಿ ಮುದ್ರಿಸಿ (ಐಚ್ಛಿಕ)',
+  'Say the word or sentence so others can hear how it sounds in your dialect.': 'ಈ ಪದ ಅಥವಾ ವಾಕ್ಯವನ್ನು ಹೇಳಿ, ನಿಮ್ಮ ಉಪಭಾಷೆಯಲ್ಲಿ ಹೇಗೆ ಕೇಳಿಸುತ್ತದೆ ಎಂದು ಇತರರು ಕೇಳಲಿ.',
+  'Recording… tap Stop when done': 'ಮುದ್ರಣ ನಡೆಯುತ್ತಿದೆ… ಮುಗಿದ ಮೇಲೆ ನಿಲ್ಲಿಸಿ ಒತ್ತಿ',
+  'Record again': 'ಮತ್ತೆ ಮುದ್ರಿಸಿ', 'Remove recording': 'ಮುದ್ರಣ ತೆಗೆಯಿರಿ', 'Your recording': 'ನಿಮ್ಮ ಮುದ್ರಣ',
+  'Microphone unavailable. Please allow microphone access.': 'ಮೈಕ್ರೋಫೋನ್ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ಮೈಕ್ ಅನುಮತಿ ನೀಡಿ.',
+  'I recorded this myself and agree to share my voice openly.': 'ಇದನ್ನು ನಾನೇ ಮುದ್ರಿಸಿದ್ದೇನೆ; ನನ್ನ ಧ್ವನಿಯನ್ನು ಎಲ್ಲರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಲು ಒಪ್ಪುತ್ತೇನೆ.',
+  'Hear how it sounds': 'ಹೇಗೆ ಕೇಳಿಸುತ್ತದೆ ಎಂದು ಕೇಳಿ', '🎙 Community recording': '🎙 ಸಮುದಾಯದ ಧ್ವನಿ',
+  'Recording is too long. Please keep it under 15 seconds.': 'ಮುದ್ರಣ ತುಂಬಾ ಉದ್ದವಾಗಿದೆ. 15 ಸೆಕೆಂಡ್ ಒಳಗೆ ಇರಲಿ.',
+  'Audio could not be played. Check that your device is not muted, then try again.': 'ಧ್ವನಿ ಪ್ಲೇ ಆಗಲಿಲ್ಲ. ಸಾಧನ ಮ್ಯೂಟ್ ಆಗಿಲ್ಲವೆಂದು ಪರಿಶೀಲಿಸಿ, ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
 }

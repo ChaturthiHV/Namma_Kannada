@@ -19,7 +19,7 @@ export const ENTRIES = [
  E(3, 'c1', 'What are you doing?', 'coastal', 'ಎಂತ ಮಾಡ್ತೀ?', 'Entha maadthi?'),
  E(4, 'c2', 'Where are you going?', 'mysuru', 'ಎಲ್ಲಿಗೆ ಹೋಗ್ತಿದ್ದೀಯ?', 'Elli hogtidiya?'),
  E(5, 'c2', 'Where are you going?', 'north', 'ಎಲ್ಲಿಗೆ ಹೊಂಟೀ?', 'Elli hontee?'),
- E(6, 'c2', 'Where are you going?', 'coastal', 'ಎಲ್ಲಿಗೆ ಹೋಪುದು?', 'Elli hopudu?'),
+ E(6, 'c2', 'Where are you going?', 'coastal', 'ಎಲ್ಲಿಗೆ ಹೋಗ್ತಿದ್ದೀಯ?', 'Ellige hogtiddiya?'),
  E(7, 'c3', 'Have you eaten?', 'mysuru', 'ಊಟ ಆಯ್ತಾ?', 'Oota aayta?'),
  E(8, 'c3', 'Have you eaten?', 'north', 'ಊಟ ಆತೇನ್ರಿ?', 'Oota aatenri?'),
  E(9, 'c3', 'Have you eaten?', 'coastal', 'ಊಟ ಆಯ್ತಾ?', 'Oota aayta?', 'pending'),
@@ -47,7 +47,8 @@ export function useEntries() {
  const [db, setDb] = useState<any[] | null>(null)
  useEffect(() => { if (API) { api('/entries').then(d => setDb(d.entries)).catch(() => {}); return } }, [])
  const m = new Map(x.map(e => [e.id, e]))
- const raw = db ?? [...ENTRIES.map(e => m.get(e.id) || e), ...x.filter(e => !ENTRIES.some(b => b.id === e.id))]
+ const withAudio = (e: any) => (e.audio || !e.audioPath) ? e : { ...e, audio: /^https?:/.test(e.audioPath) ? e.audioPath : (API || '') + e.audioPath }
+ const raw = (db ? db.map(withAudio) : null) ?? [...ENTRIES.map(e => m.get(e.id) || e), ...x.filter(e => !ENTRIES.some(b => b.id === e.id))]
  // A pending entry is shown as verified only after VOTES_NEEDED approvals; otherwise it stays pending.
  const base = raw.map((e: any) => {
   const n = db ? (e.votes ?? 0) : (votes[e.id] || []).length
@@ -57,11 +58,15 @@ export function useEntries() {
   if (API && db) {
    try {
     const known = db.some(a => a.id === e.id)
-    const { entry } = known ? await api(`/entries/${e.id}/status`, { method: 'PATCH', json: { status: e.status } }) : await api('/entries', { method: 'POST', json: { kn: e.kn, en: e.en, region: e.region, rom: e.rom, ctx: e.ctx } })
+    const { entry } = known ? await api(`/entries/${e.id}/status`, { method: 'PATCH', json: { status: e.status } }) : await api('/entries', { method: 'POST', json: { kn: e.kn, en: e.en, region: e.region, ctx: e.ctx, example: e.ex } })
+    if (!known && e.blob) { // attach the voice recording so other people can hear it
+     try { const fd = new FormData(); fd.append('audio', e.blob, 'recording.' + (e.blob.type.includes('mp4') ? 'm4a' : e.blob.type.includes('ogg') ? 'ogg' : 'webm')); fd.append('consent', 'true'); fd.append('duration', String(e.dur || 0)); const { audio } = await api(`/entries/${entry.id}/audio`, { method: 'POST', body: fd }); entry.audio = audio.url } catch (x: any) { console.warn(x.message) }
+    }
     return setDb(known ? db.map(a => a.id === entry.id ? entry : a) : [...db.filter(a => a.id !== entry.id), entry])
    } catch (err: any) { if (err.status) return console.warn(err.message) } // server said no (e.g. not a reviewer)
   }
-  setX([...x.filter(a => a.id !== e.id), e])
+  const { blob, ...keep } = e
+  setX([...x.filter(a => a.id !== e.id), keep])
  }
  const hasVoted = (e: any, u: any) => !!u && (db ? !!e.voted : (votes[e.id] || []).includes(u.phone))
  // Approve a pending entry. Only speakers of the same dialect can vote, once each, and never on their own entry.
@@ -87,4 +92,31 @@ export function useEntries() {
  return { all: base.filter(e => e.status !== 'rejected'), set, vote, hasVoted }
 }
 export const rn = (id: string) => REGIONS.find(r => r.id === id)?.n || id
-export const speak = (t: string) => { if (typeof window !== 'undefined' && 'speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(t); u.lang = 'kn-IN'; speechSynthesis.cancel(); speechSynthesis.speak(u) } }
+/** Stable key for a Kannada string -> /audio/<key>.mp3 (same function as scripts/gen-audio.mjs). */
+export const normText = (s: string) => s.replace(/[“”"]/g, '').replace(/\s+/g, ' ').trim()
+export const audioKey = (str: string) => { // cyrb53
+ let h1 = 0xdeadbeef, h2 = 0x41c6ce57
+ for (let i = 0; i < str.length; i++) { const ch = str.charCodeAt(i); h1 = Math.imul(h1 ^ ch, 2654435761); h2 = Math.imul(h2 ^ ch, 1597334677) }
+ h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909)
+ h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909)
+ return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36)
+}
+const deviceTts = (t: string) => { try { const u = new SpeechSynthesisUtterance(t); u.lang = 'kn-IN'; speechSynthesis.cancel(); speechSynthesis.speak(u) } catch {} }
+let current: HTMLAudioElement | null = null
+/** Plays `src` (a community recording) if given, else the pre-generated clip for this text, else the device voice. Resolves when finished. */
+export function speak(text: string, src?: string): Promise<boolean> {
+ if (typeof window === 'undefined') return Promise.resolve(false)
+ try { current?.pause(); speechSynthesis?.cancel() } catch {}
+ return new Promise<boolean>(resolve => {
+  const urls = [src, `/audio/${audioKey(normText(text))}.mp3`].filter(Boolean) as string[]
+  const tryNext = () => {
+   const u = urls.shift()
+   if (!u) { console.warn('[audio] no playable clip for:', text); if ('speechSynthesis' in window && speechSynthesis.getVoices().some(v => /^kn/i.test(v.lang))) { deviceTts(text); return resolve(true) } return resolve(false) }
+   const a = new Audio(u); current = a; let moved = false
+   const fail = () => { if (moved) return; moved = true; tryNext() }
+   a.onerror = fail; a.onended = () => resolve(true)
+   a.play().catch(e => { if (e?.name === 'NotAllowedError' || e?.name === 'AbortError') { moved = true; resolve(false) } else fail() })
+  }
+  tryNext()
+ })
+}

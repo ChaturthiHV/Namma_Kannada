@@ -30,7 +30,7 @@ insert into entries(id,concept_id,region_id,kannada_script,romanized,status) val
 ('e3','c1','coastal','ಎಂತ ಮಾಡ್ತೀ?','Entha maadthi?','verified'),
 ('e4','c2','mysuru','ಎಲ್ಲಿಗೆ ಹೋಗ್ತಿದ್ದೀಯ?','Elli hogtidiya?','verified'),
 ('e5','c2','north','ಎಲ್ಲಿಗೆ ಹೊಂಟೀ?','Elli hontee?','verified'),
-('e6','c2','coastal','ಎಲ್ಲಿಗೆ ಹೋಪುದು?','Elli hopudu?','verified'),
+('e6','c2','coastal','ಎಲ್ಲಿಗೆ ಹೋಗ್ತಿದ್ದೀಯ?','Ellige hogtiddiya?','verified'),
 ('e7','c3','mysuru','ಊಟ ಆಯ್ತಾ?','Oota aayta?','verified'),
 ('e8','c3','north','ಊಟ ಆತೇನ್ರಿ?','Oota aatenri?','verified'),
 ('e9','c3','coastal','ಊಟ ಆಯ್ತಾ?','Oota aayta?','pending'),
@@ -44,7 +44,7 @@ on conflict (id) do nothing;
 
 insert into spelling_variants(entry_id,variant) values
 ('e4','hogtidiya'),('e4','hogthidiya'),('e5','honti'),('e5','hontee'),
-('e6','hopudu'),('e7','ootaayta'),('e13','uppu'),('e13','upppu')
+('e6','hogtiddiya'),('e7','ootaayta'),('e13','uppu'),('e13','upppu')
 on conflict do nothing;
 
 insert into cultural_notes(entry_id,story,tags)

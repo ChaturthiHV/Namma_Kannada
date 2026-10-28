@@ -17,7 +17,7 @@ export default function Search() {
    <div className="mb-4 flex gap-2">{['All', 'Words', 'Phrases', 'Regions'].map(x => <button key={x} onClick={() => setTab(x)} className={`chip ${tab === x ? 'on' : ''}`}>{t(x)}</button>)}</div>
    {(tab === 'Regions' || tab === 'All') && regs.map(r => <p key={r.id} className="mb-2 text-sm">📍 {L.region(r.id)} — {L.regionNote(r.id)}</p>)}
    {tab !== 'Regions' && <div className="grid gap-4 md:grid-cols-2">{groups.map(c => <div key={c} className="card"><div className="mb-2 text-xs font-semibold text-muted">{tr(shown.find(e => e.concept === c)!.en)}</div>
-    {shown.filter(e => e.concept === c).map(e => <div key={e.id} className="mb-2 flex items-center justify-between border-t border-border pt-2"><div><span className="chip mb-1 inline-block">{L.region(e.region)}</span><Phrase e={e} /></div><Play t={e.kn} /></div>)}</div>)}
+    {shown.filter(e => e.concept === c).map(e => <div key={e.id} className="mb-2 flex items-center justify-between border-t border-border pt-2"><div><span className="chip mb-1 inline-block">{L.region(e.region)}</span><Phrase e={e} /></div><Play t={e.kn} src={e.audio} /></div>)}</div>)}
     {!groups.length && <p className="text-sm">{t('No results. Try a different spelling or contribute this word.')}</p>}</div>}
   </div>
  )

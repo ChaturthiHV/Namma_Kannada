@@ -10,7 +10,7 @@ export default function Battle() {
  const [a, setA] = useState(0); const [b, setB] = useState(1); const [mix, setMix] = useState(0.5)
  const A = opts[a % Math.max(opts.length, 1)], B = opts[b % Math.max(opts.length, 1)]
  const Card = ({ e, op, side }: any) => e ? (
-  <div className="card" style={{ opacity: op }}><div className="mb-2 flex justify-between"><b>{region(e.region)}</b><Play t={e.kn} /></div>
+  <div className="card" style={{ opacity: op }}><div className="mb-2 flex justify-between"><b>{region(e.region)}</b><Play t={e.kn} src={e.audio} /></div>
    <div className="font-kn text-3xl font-bold">{e.kn}</div>{!L.kn && <div>{e.rom}</div>}<div className="mb-2 text-xs text-muted">{tr(e.en)} · {t(e.ctx)}</div><Wave n={18} /></div>) : <div className="card text-sm">{t('Pick a concept with 2+ regions.')}</div>
  return (
   <div className="p-5"><PageHead en="Dialect Battle" kn="ಉಪಭಾಷೆ ಸ್ಪರ್ಧೆ" sub={t('Same meaning, different regions. Never merged.')} />

@@ -1,7 +1,7 @@
 import './globals.css'
 import { Providers } from './providers'
 import AuthGate from '@/components/AuthGate'
-export const metadata = { title: 'Namma Kannada', description: 'Different regions. Same heart. One Kannada.', appleWebApp: { capable: true, title: 'Namma Kannada', statusBarStyle: 'black-translucent' }, icons: { icon: [{ url: '/icon.png', type: 'image/png' }, { url: '/favicon.ico' }], apple: '/apple-icon.png' } }
+export const metadata = { title: 'Namma Kannada', description: 'Different regions. Same heart. One Kannada.', appleWebApp: { capable: true, title: 'Namma Kannada', statusBarStyle: 'black-translucent' }, other: { 'mobile-web-app-capable': 'yes' }, icons: { icon: [{ url: '/icon.png', type: 'image/png' }, { url: '/favicon.ico' }], apple: '/apple-icon.png' } }
 export const viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#8e1015' }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
  return (

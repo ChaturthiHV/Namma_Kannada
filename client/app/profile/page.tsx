@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Award, BookOpen, Check, Compass, Flame, LogOut, MapPin, Pencil, Phone, Sparkles, Star, Trophy, Mic, PlusCircle, Map as MapIcon, Swords, Lock } from 'lucide-react'
+import { BookOpen, Check, Compass, LogOut, MapPin, Pencil, Phone, Star, Trophy, Lock } from 'lucide-react'
 import { useUser, logout, updateProfile, DISTRICTS, findRegion } from '@/lib/auth'
 import { REGIONS, useLS, useEntries, VOTES_NEEDED } from '@/lib/data'
 import { useI18n, transliterate } from '@/lib/i18n'
@@ -72,7 +72,6 @@ export default function ProfilePage() {
  const n = (a: any) => (Array.isArray(a) ? a.length : 0)
  const words = n(learned), regions = n(explored)
  const mine = all.filter((e: any) => e.mine || (e.by && e.by === u.phone))
- const verifiedMine = mine.filter((e: any) => e.status === 'verified').length
  const xp = words * 10 + regions * 15 + (points || 0)
  let li = 0; LEVELS.forEach(([min], i) => { if (xp >= min) li = i })
  const next = LEVELS[li + 1]
@@ -84,17 +83,6 @@ export default function ProfilePage() {
  const accent = r?.c || '#8e1015'
  const myWords = r ? all.filter((e: any) => e.region === r.id && e.status === 'verified').slice(0, 4) : []
 
- const BADGES = [
-  { i: Sparkles, en: 'First Word', kn: 'ಮೊದಲ ಪದ', d: t('Learn your first word', 'ಮೊದಲ ಪದ ಕಲಿಯಿರಿ'), ok: words >= 1 },
-  { i: BookOpen, en: 'Word Collector', kn: 'ಪದ ಸಂಗ್ರಾಹಕ', d: t('Learn 10 words', '10 ಪದ ಕಲಿಯಿರಿ'), ok: words >= 10 },
-  { i: Compass, en: 'Explorer', kn: 'ಅನ್ವೇಷಕ', d: t('Explore 3 regions', '3 ಪ್ರದೇಶ ನೋಡಿ'), ok: regions >= 3 },
-  { i: MapIcon, en: 'Map Master', kn: 'ನಕ್ಷೆ ಪ್ರವೀಣ', d: t('Explore all regions', 'ಎಲ್ಲಾ ಪ್ರದೇಶ ನೋಡಿ'), ok: regions >= REGIONS.length },
-  { i: Star, en: 'Contributor', kn: 'ಕೊಡುಗೆದಾರ', d: t('Contribute a word', 'ಒಂದು ಪದ ನೀಡಿ'), ok: mine.length >= 1 },
-  { i: Award, en: 'Verified Voice', kn: 'ಪರಿಶೀಲಿತ ಧ್ವನಿ', d: t('Get a word verified', 'ಪದ ಪರಿಶೀಲನೆಯಾಗಲಿ'), ok: verifiedMine >= 1 },
-  { i: Flame, en: 'Sharp Mind', kn: 'ಚುರುಕು ಮನಸ್ಸು', d: t('Score 100+ in a game', 'ಆಟದಲ್ಲಿ 100+ ಅಂಕ'), ok: (best || 0) >= 100 },
-  { i: Trophy, en: 'Champion', kn: 'ಚಾಂಪಿಯನ್', d: t('Reach the top level', 'ಅತ್ಯುನ್ನತ ಹಂತ ತಲುಪಿ'), ok: li === LEVELS.length - 1 },
- ]
- const earned = BADGES.filter(b => b.ok).length
 
  return (
   <div className="p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" sub={t('Your Kannada, your district, your progress.', 'ನಿಮ್ಮ ಕನ್ನಡ, ನಿಮ್ಮ ಜಿಲ್ಲೆ, ನಿಮ್ಮ ಪ್ರಗತಿ.')} />
@@ -183,28 +171,16 @@ export default function ProfilePage() {
        <div><div className="mb-1.5 text-xs font-semibold text-muted">{t('Districts in your dialect area', 'ನಿಮ್ಮ ಉಪಭಾಷೆ ಪ್ರದೇಶದ ಜಿಲ್ಲೆಗಳು')}</div>
         <div className="flex flex-wrap gap-2">{(DISTRICTS[r.id] || []).map(d => <span key={d} className={`chip ${d.toLowerCase() === (u.district || '').toLowerCase() ? 'on' : ''}`}>{dName(d)}</span>)}</div></div>
        {myWords.length > 0 && <div><div className="mb-1.5 text-xs font-semibold text-muted">{t('Words from your dialect', 'ನಿಮ್ಮ ಉಪಭಾಷೆಯ ಪದಗಳು')}</div>
-        <ul className="space-y-2">{myWords.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 px-3 py-2"><div><div className="font-kn text-lg font-bold leading-tight">{e.kn}</div><div className="text-xs text-muted">{kn ? L.tr(e.en) : `${e.rom} · ${e.en}`}</div></div><Play t={e.kn} /></li>)}</ul></div>}
+        <ul className="space-y-2">{myWords.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 px-3 py-2"><div><div className="font-kn text-lg font-bold leading-tight">{e.kn}</div><div className="text-xs text-muted">{kn ? L.tr(e.en) : `${e.rom} · ${e.en}`}</div></div><Play t={e.kn} src={e.audio} /></li>)}</ul></div>}
       </> : <p className="text-sm text-muted">{t('Set your dialect to see details about your Kannada.', 'ನಿಮ್ಮ ಕನ್ನಡದ ವಿವರಗಳನ್ನು ನೋಡಲು ಉಪಭಾಷೆ ಆರಿಸಿ.')}</p>}
      </div>
 
-     <div className="card"><div className="mb-3 flex items-center justify-between"><h2 className="font-display text-lg font-bold">{t('Badges', 'ಬ್ಯಾಡ್ಜ್‌ಗಳು')}</h2><span className="text-xs text-muted">{earned}/{BADGES.length} {t('earned', 'ಗಳಿಸಿದ')}</span></div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">{BADGES.map(b => (
-       <div key={b.en} title={b.d} className={`flex flex-col items-center gap-1 rounded-xl border p-3 text-center ${b.ok ? 'border-primary/60 bg-primary/15' : 'border-border bg-surface2 opacity-55'}`}>
-        <span className={`grid h-10 w-10 place-items-center rounded-full ${b.ok ? 'bg-primary text-onprimary' : 'bg-black/10 text-muted dark:bg-white/10'}`}>{b.ok ? <b.i size={20} /> : <Lock size={16} />}</span>
-        <div className="text-[11px] font-semibold leading-tight">{kn ? b.kn : b.en}</div><div className="text-[10px] leading-tight text-muted">{b.d}</div>
-       </div>))}</div></div>
 
      <div className="card"><div className="mb-3 flex items-center justify-between"><h2 className="font-display text-lg font-bold">{t('My contributions', 'ನನ್ನ ಕೊಡುಗೆಗಳು')}</h2><Link href="/contribute" className="text-xs font-semibold text-maroon underline dark:text-gold">{t('Add a word', 'ಪದ ಸೇರಿಸಿ')}</Link></div>
       {mine.length ? <ul className="space-y-2">{mine.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-2 rounded-lg bg-surface2 p-2 text-sm">
        <span className="min-w-0"><b className="font-kn">{e.kn}</b> · {L.tr(e.en)}{e.status === 'pending' && <span className="ml-2 text-[11px] text-muted">{Math.min(e.votes || 0, VOTES_NEEDED)}/{VOTES_NEEDED} {t('approvals', 'ಅನುಮೋದನೆ')}</span>}</span><Badge s={e.status} /></li>)}</ul>
        : <p className="text-sm text-muted">{t('You haven’t contributed yet. Share a word or phrase from your dialect!', 'ನೀವು ಇನ್ನೂ ಕೊಡುಗೆ ನೀಡಿಲ್ಲ. ನಿಮ್ಮ ಉಪಭಾಷೆಯ ಪದವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ!')}</p>}</div>
 
-     <div className="card space-y-3"><h2 className="font-display text-lg font-bold">{t('Keep going', 'ಮುಂದುವರಿಸಿ')}</h2>
-      <div className="flex flex-wrap gap-2">
-       <Link className="btn" href="/map"><MapIcon size={15} />{t('Explore the map', 'ನಕ್ಷೆ ನೋಡಿ')}</Link>
-       <Link className="btn2" href="/speak"><Mic size={15} />{t('Speak like a local', 'ಸ್ಥಳೀಯರಂತೆ ಮಾತು')}</Link>
-       <Link className="btn2" href="/battle"><Swords size={15} />{t('Dialect Battle', 'ಉಪಭಾಷೆ ಸ್ಪರ್ಧೆ')}</Link>
-       <Link className="btn2" href="/contribute"><PlusCircle size={15} />{t('Contribute a word', 'ಪದ ಕೊಡುಗೆ')}</Link></div></div>
     </div>
    </div>
   </div>

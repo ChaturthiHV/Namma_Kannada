@@ -15,7 +15,7 @@ export default function MapPage() {
      <ul className="mt-3 flex flex-wrap gap-2">{REGIONS.map(x => <li key={x.id}><button onClick={() => pick(x.id)} className={`chip ${sel === x.id ? 'on' : ''}`}><span className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: x.c }} />{L.region(x.id)}{done.includes(x.id) ? ' ✓' : ''}</button></li>)}</ul></div>
     <div className="card"><h2 className="font-display text-xl font-bold">{L.region(r.id)}</h2><p className="mb-3 text-sm text-muted">{t('Spoken mainly in: {note}', { note: L.regionNote(r.id) })}</p>
      {list.length === 0 && <p className="text-sm">{t('No words yet. Be the first to contribute!')}</p>}
-     <div className="space-y-3">{list.map(e => <div key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 p-3"><Phrase e={e} /><Play t={e.kn} /></div>)}</div></div>
+     <div className="space-y-3">{list.map(e => <div key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 p-3"><Phrase e={e} /><Play t={e.kn} src={e.audio} /></div>)}</div></div>
    </div></div>
  )
 }
