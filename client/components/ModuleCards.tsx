@@ -1,14 +1,17 @@
 'use client'
 import Link from 'next/link'
 import { useI18n } from '@/lib/i18n'
-import { Map, Swords, Mic, Search, Plus, LayoutGrid, ArrowRight } from 'lucide-react'
+import { Map, Swords, Mic, Search, Plus, LayoutGrid } from 'lucide-react'
 const mods = [['/map', 'Explore Karnataka Map', Map], ['/battle', 'Dialect Battle', Swords], ['/speak', 'Speak Like a Local', Mic], ['/detective', 'Dialect Detective', Search], ['/contribute', 'Contribute a Word', Plus], ['/about', 'More Modules', LayoutGrid]] as any[]
 export default function ModuleCards() {
  const { t } = useI18n()
  return (
-  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+  <div className="grid min-w-0 grid-cols-2 content-start gap-3 md:grid-cols-3">
    {mods.map(([h, l, Icon]) => (
-    <Link key={l} href={h} className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-surface2 p-4 text-center text-sm font-semibold text-maroon shadow-card transition hover:-translate-y-1 hover:shadow-glow dark:text-gold"><Icon size={34} strokeWidth={1.6} /><span>{t(l)}</span><ArrowRight size={14} className="opacity-60 transition group-hover:translate-x-1" /></Link>
+    <Link key={l} href={h} className="flex items-center gap-3 rounded-xl border border-border bg-surface2 p-3 text-sm font-semibold leading-snug text-maroon shadow-card transition hover:shadow-glow dark:text-gold">
+     <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-surface"><Icon size={22} strokeWidth={1.8} /></span>
+     <span className="min-w-0 flex-1">{t(l)}</span>
+    </Link>
    ))}
   </div>
  )

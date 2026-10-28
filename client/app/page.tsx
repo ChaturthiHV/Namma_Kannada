@@ -4,6 +4,8 @@ import RegionExplorer from '@/components/RegionExplorer'
 import FeaturedWord from '@/components/FeaturedWord'
 import RightRail from '@/components/RightRail'
 import Welcome from '@/components/Welcome'
+// Two aligned columns on wide screens: [shortcuts | call to action] over [region explorer | featured word].
+// On smaller screens everything stacks (the call to action moves to the end via `order-last`).
 export default function Home() {
- return (<><Welcome /><Hero /><div className="grid gap-5 p-5 xl:grid-cols-[1fr_300px]"><div className="min-w-0 space-y-5"><ModuleCards /><div className="grid gap-5 lg:grid-cols-[1.35fr_1fr]"><RegionExplorer /><FeaturedWord /></div></div><RightRail /></div></>)
+ return (<><Welcome /><Hero /><div className="grid gap-5 p-5 xl:grid-cols-[minmax(0,1fr)_320px]"><ModuleCards /><RightRail /><RegionExplorer /><FeaturedWord /></div></>)
 }

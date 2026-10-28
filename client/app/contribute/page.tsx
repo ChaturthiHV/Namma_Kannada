@@ -38,29 +38,32 @@ export default function Contribute() {
  const u = (k: string) => ({ value: f[k] || '', onChange: (e: any) => setF({ ...f, [k]: e.target.value, touched: true }), className: 'inp' })
  return (
   <div className="p-5"><PageHead en="Contribute a Word" kn="ಪದ ಕೊಡುಗೆ" sub={t('Every contribution needs {n} approvals from speakers of the same dialect to become Verified.', { n: VOTES_NEEDED })} />
-   <div className="grid gap-5 lg:grid-cols-2">
-    <div className="card space-y-3"><input {...u('kn')} placeholder={t('Kannada script')} aria-label={t('Kannada script')} /><input {...u('en')} placeholder={t('English meaning')} aria-label={t('Meaning')} />
-     <select {...u('region')} aria-label={t('Region')}>{REGIONS.map(r => <option key={r.id} value={r.id}>{L.region(r.id)}</option>)}</select><textarea {...u('ex')} placeholder={t('Example sentence (optional)')} aria-label={t('Example')} />
+   <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="card space-y-3">
+     <div className="grid gap-3 sm:grid-cols-2"><input {...u('kn')} placeholder={t('Kannada script')} aria-label={t('Kannada script')} /><input {...u('en')} placeholder={t('English meaning')} aria-label={t('Meaning')} /></div>
+     <select {...u('region')} aria-label={t('Region')}>{REGIONS.map(r => <option key={r.id} value={r.id}>{L.region(r.id)}</option>)}</select><textarea {...u('ex')} rows={2} className="inp resize-none" placeholder={t('Example sentence (optional)')} aria-label={t('Example')} />
      {dup && <p className="text-sm text-amber-600">{t('Similar entry exists ({kn}). Add it as a variant only if different.', { kn: dup.kn })}</p>}
-     <div className="rounded-xl border border-dashed border-border p-3 space-y-2">
-      <div className="text-sm font-semibold">{t('Record your voice (optional)')}</div>
-      <p className="text-xs text-muted">{t('Say the word or sentence so others can hear how it sounds in your dialect.')}</p>
+     <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed border-border p-3">
+      <div className="min-w-0 flex-1 basis-56"><div className="text-sm font-semibold">{t('Record your voice (optional)')}</div>
+      <p className="text-xs text-muted">{t('Say the word or sentence so others can hear how it sounds in your dialect.')}</p></div>
       <div className="flex flex-wrap items-center gap-2">
        {!rec ? <button type="button" className="btn !bg-red-600 !text-white" onClick={start}><Mic size={16} />{t(blob ? 'Record again' : 'Record')}</button> : <button type="button" className="btn !bg-red-600 !text-white animate-pulse" onClick={stop}><Square size={16} />{t('Stop')}</button>}
        {rec && <span role="status" className="text-xs">{t('Recording… tap Stop when done')} · {secs}s</span>}
        {blob && !rec && <button type="button" className="btn2" onClick={clearRec}><Trash2 size={14} />{t('Remove recording')}</button>}
       </div>
-      {url && !rec && <div><div className="text-xs text-muted">{t('Your recording')}</div><audio controls src={url} className="w-full" /></div>}
-      {micErr && <p role="alert" className="text-sm text-red-600">{t(micErr)}</p>}
+      {url && !rec && <div className="basis-full"><div className="text-xs text-muted">{t('Your recording')}</div><audio controls src={url} className="w-full" /></div>}
+      {micErr && <p role="alert" className="basis-full text-sm text-red-600">{t(micErr)}</p>}
      </div>
-     <label className="flex gap-2 text-xs"><input type="checkbox" checked={ok} onChange={e => setOk(e.target.checked)} />{t(blob ? 'I recorded this myself and agree to share my voice openly.' : 'I wrote this myself and agree to share it openly.')}</label>
-     <button className="btn2 w-full justify-center" onClick={submit}>{t('Submit for Review')}</button>{msg && <p role="status" className="text-sm">{t(msg.k, msg.v ? { ...msg.v, name: L.region(msg.v.region) } : undefined)}</p>}</div>
-    <div className="card"><div className="mb-3 flex gap-2">{['verified', 'pending'].map(k => <button key={k} onClick={() => setTab(k)} className={`chip ${tab === k ? 'on' : ''}`}>{t(k)}</button>)}</div>
+     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <label className="flex min-w-0 flex-1 items-start gap-2 text-xs"><input type="checkbox" className="mt-0.5" checked={ok} onChange={e => setOk(e.target.checked)} />{t(blob ? 'I recorded this myself and agree to share my voice openly.' : 'I wrote this myself and agree to share it openly.')}</label>
+      <button className="btn2 shrink-0 justify-center" onClick={submit}>{t('Submit for Review')}</button></div>
+     {msg && <p role="status" className="text-sm">{t(msg.k, msg.v ? { ...msg.v, name: L.region(msg.v.region) } : undefined)}</p>}</div>
+    <div className="card min-w-0 lg:sticky lg:top-5 lg:max-h-[calc(100vh-2.5rem)] lg:overflow-y-auto"><div className="mb-3 flex gap-2">{['verified', 'pending'].map(k => <button key={k} onClick={() => setTab(k)} aria-pressed={tab === k} className={`chip ${tab === k ? 'on' : ''}`}>{t(k)} · {all.filter(e => e.status === k).length}</button>)}</div>
      {tab === 'pending' && vmsg && <p role="status" className={`mb-2 text-sm ${vmsg.err ? 'text-red-600' : 'text-green-700 dark:text-green-400'}`}>{vmsg.msg}</p>}
      <ul className="space-y-2">{all.filter(e => e.status === tab).map(e => {
       const pending = e.status === 'pending', voted = hasVoted(e, me), mine = !!me && e.by === me.phone, sameDialect = !!me && me.region === e.region
       const n = Math.min(e.votes || 0, VOTES_NEEDED)
-      return <li key={e.id} className="rounded-lg bg-surface2 p-2 text-sm">
+      return <li key={e.id} className="rounded-lg bg-surface2 p-3 text-sm">
        <div className="flex items-center justify-between gap-2"><span className="flex min-w-0 items-center gap-2"><Play t={e.kn} src={e.audio} label={t('Hear how it sounds')} /><span className="min-w-0"><b className="font-kn">{e.kn}</b> · {tr(e.en)} · {L.region(e.region)}{e.audio && <span className="ml-2 text-[11px] text-muted">{t('🎙 Community recording')}</span>}</span></span><Badge s={e.status} /></div>
        {pending && <div className="mt-2 flex items-center gap-3">
         <div className="flex-1"><div className="h-1.5 overflow-hidden rounded-full bg-black/10 dark:bg-white/15"><div className="h-full rounded-full bg-primary transition-all" style={{ width: `${(n / VOTES_NEEDED) * 100}%` }} /></div><div className="mt-1 text-[11px] text-muted">{t('{a}/{b} approvals from {name} speakers', { a: n, b: VOTES_NEEDED, name: L.region(e.region) })}</div>{me && !sameDialect && <div className="mt-0.5 text-[11px] font-semibold text-amber-700 dark:text-amber-400">{t('🔒 Only {name} speakers can approve this', { name: L.region(e.region) })}</div>}</div>
