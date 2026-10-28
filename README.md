@@ -100,3 +100,12 @@ Leave `NEXT_PUBLIC_API_URL` empty and the client runs in localStorage demo mode.
 - If the server rejects an action (e.g. a non-reviewer on the Admin page), the page cannot show the error; it is logged in the browser console.
 - Dialect text and all Talk to a Local dialogue are placeholders: have native speakers verify them.
 - Before going live: strong `JWT_SECRET`, new admin password, HTTPS, an SMS provider for OTP, and object storage (S3/R2) for audio on hosts with ephemeral disks.
+
+## Language (English / ಕನ್ನಡ)
+One switch, no mixing: English mode is all English, Kannada mode is all Kannada (menus, buttons, placeholders, errors, region/district names, meanings).
+- `client/lib/i18n.tsx`: `useI18n()` gives `t()` (UI text), `tr()` (dynamic text), `nm()` (names), `region()`, `district()`.
+- `client/lib/dict.ts`: hand-written Kannada UI strings. `client/lib/kn.ts`: regions, region descriptions, districts.
+- `client/app/api/translate/route.ts`: anything not in the dictionary (user-contributed meanings, server messages) is translated through this API route and cached in the browser. Names/places typed in English letters are transliterated into Kannada script (Google Input Tools).
+- Optional: set `GOOGLE_TRANSLATE_API_KEY` in `client/.env.local` to use the Google Cloud Translation API; without it the free public endpoint is used.
+- In Kannada mode the Latin romanisation lines are hidden; typing a name in the name field converts it to Kannada script when you leave the field.
+To add a UI string: wrap it in `t('English text')` and, for best quality, add its Kannada to `dict.ts`.

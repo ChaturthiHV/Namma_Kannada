@@ -1,0 +1,36 @@
+// 30 words, one per day: the list rotates by calendar day, so every word shows once in a 30-day cycle.
+// [Kannada, romanised (English mode only), English meaning, Kannada meaning (Kannada mode)]
+export const WOTD: [string, string, string, string][] = [
+  ['ಮಲೆನಾಡು', 'Malenaadu', 'Hill country of Karnataka', 'ಪಶ್ಚಿಮ ಘಟ್ಟದ ಬೆಟ್ಟಗುಡ್ಡಗಳ ಪ್ರದೇಶ'],
+  ['ಉಪ್ಪು', 'Uppu', 'Salt', 'ಅಡುಗೆಗೆ ಬಳಸುವ ರುಚಿಕಾರಕ'],
+  ['ನೀರು', 'Neeru', 'Water', 'ಕುಡಿಯಲು ಬಳಸುವ ದ್ರವ'],
+  ['ಊಟ', 'Oota', 'Meal', 'ಹಸಿವು ತೀರಿಸಲು ಮಾಡುವ ಭೋಜನ'],
+  ['ಮನೆ', 'Mane', 'House', 'ವಾಸಿಸುವ ಕಟ್ಟಡ'],
+  ['ಹೊಲ', 'Hola', 'Field', 'ಬೆಳೆ ಬೆಳೆಯುವ ಭೂಮಿ'],
+  ['ಮಳೆ', 'Male', 'Rain', 'ಆಕಾಶದಿಂದ ಬೀಳುವ ನೀರಿನ ಹನಿಗಳು'],
+  ['ಬೆಳಗು', 'Belagu', 'Dawn', 'ಬೆಳಕು ಹರಿಯುವ ಹೊತ್ತು'],
+  ['ಹಬ್ಬ', 'Habba', 'Festival', 'ಸಂಭ್ರಮದ ಆಚರಣೆಯ ದಿನ'],
+  ['ಅಕ್ಕ', 'Akka', 'Elder sister', 'ಒಡಹುಟ್ಟಿದ ಹಿರಿಯ ಸಹೋದರಿ'],
+  ['ಅಣ್ಣ', 'Anna', 'Elder brother', 'ಒಡಹುಟ್ಟಿದ ಹಿರಿಯ ಸಹೋದರ'],
+  ['ಅಮ್ಮ', 'Amma', 'Mother', 'ಹೆತ್ತ ತಾಯಿ'],
+  ['ಅಪ್ಪ', 'Appa', 'Father', 'ಹೆತ್ತ ತಂದೆ'],
+  ['ಗೆಳೆಯ', 'Geleya', 'Friend', 'ಆಪ್ತ ಸ್ನೇಹಿತ'],
+  ['ಹಾಲು', 'Haalu', 'Milk', 'ಹಸು ಕೊಡುವ ಬಿಳಿ ಪೇಯ'],
+  ['ಕಾಫಿ', 'Kaafi', 'Coffee', 'ಕಾಫಿ ಬೀಜದಿಂದ ಮಾಡುವ ಪಾನೀಯ'],
+  ['ಬೆಟ್ಟ', 'Betta', 'Hill', 'ಎತ್ತರವಾಗಿ ಏರಿರುವ ಭೂಭಾಗ'],
+  ['ಕಡಲು', 'Kadalu', 'Sea', 'ವಿಶಾಲ ಉಪ್ಪುನೀರಿನ ಜಲರಾಶಿ'],
+  ['ನದಿ', 'Nadi', 'River', 'ಹರಿಯುವ ನೈಸರ್ಗಿಕ ಜಲಧಾರೆ'],
+  ['ಹೂವು', 'Hoovu', 'Flower', 'ಗಿಡದಲ್ಲಿ ಅರಳುವ ಸುಂದರ ಭಾಗ'],
+  ['ಮರ', 'Mara', 'Tree', 'ದೊಡ್ಡದಾಗಿ ಬೆಳೆಯುವ ಗಿಡ'],
+  ['ಹಸಿವು', 'Hasivu', 'Hunger', 'ತಿನ್ನಬೇಕೆಂಬ ದೇಹದ ಬಯಕೆ'],
+  ['ನಗು', 'Nagu', 'Smile', 'ಸಂತಸದಿಂದ ಮುಖದಲ್ಲಿ ಮೂಡುವ ಭಾವ'],
+  ['ದಾರಿ', 'Daari', 'Way', 'ಹೋಗುವ ಮಾರ್ಗ'],
+  ['ಊರು', 'Ooru', 'Town or village', 'ಜನರು ವಾಸಿಸುವ ಸ್ಥಳ'],
+  ['ಕನಸು', 'Kanasu', 'Dream', 'ನಿದ್ರೆಯಲ್ಲಿ ಕಾಣುವ ಚಿತ್ರಣ'],
+  ['ಬೆಲ್ಲ', 'Bella', 'Jaggery', 'ಕಬ್ಬಿನ ರಸದಿಂದ ಮಾಡುವ ಸಿಹಿ'],
+  ['ಜೋಳ', 'Jola', 'Sorghum (jowar)', 'ಉತ್ತರ ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ಧಾನ್ಯ'],
+  ['ರಾಗಿ', 'Raagi', 'Finger millet', 'ದಕ್ಷಿಣ ಕರ್ನಾಟಕದ ಪ್ರಮುಖ ಧಾನ್ಯ'],
+  ['ನಮಸ್ಕಾರ', 'Namaskaara', 'Hello', 'ಭೇಟಿಯಾದಾಗ ಹೇಳುವ ಶುಭಾಶಯ'],
+]
+/** Index of today's word (local calendar day, so it changes at local midnight). */
+export const todayIndex = (d = new Date()) => Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 86400000) % WOTD.length

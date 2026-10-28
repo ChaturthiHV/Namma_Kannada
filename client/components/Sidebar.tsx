@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Home, MapPin, Swords, Mic, Search, PlusSquare, Sparkles, MessagesSquare, Users, Flame, User, LogOut } from 'lucide-react'
-import { useLS } from '@/lib/data'
+import { useI18n } from '@/lib/i18n'
+import { LangToggle } from './ui'
 import { useUser, logout } from '@/lib/auth'
 export const NAV = [
     ['/', 'Home', 'ಮುಖಪುಟ', Home],
@@ -19,19 +20,19 @@ export const NAV = [
 ] as any[]
 export const PROFILE = ['/profile', 'Profile', 'ಪ್ರೊಫೈಲ್', User] as any[]
 export default function Sidebar() {
-    const p = usePathname(); const [l] = useLS('lang', 'en'); const u = useUser()
+    const p = usePathname(); const { kn, t } = useI18n(); const u = useUser(); const l = kn ? 'kn' : 'en'
     const [ph, pen, pkn, PIcon] = PROFILE
     return (
         <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-hidden bg-gradient-to-b from-maroon to-maroon2 text-white md:flex">
-            <div className="px-5 pb-3 pt-4"><img src="/logo.png" alt="Namma Karnataka" className="mb-2 h-14 w-14 object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,.4)]" /><div className="font-display text-1xl leading-none text-gold">ನಮ್ಮ</div><div className="font-display text-3xl font-extrabold leading-none text-gold">ಕನ್ನಡ</div><p className="mt-1 text-[9px] text-white/70">Different regions. Same heart. One Kannada.</p></div>
+            <div className="px-5 pb-3 pt-4"><img src="/logo.png" alt={t('Namma Karnataka')} className="mb-2 h-14 w-14 object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,.4)]" /><div className="font-display text-1xl leading-none text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</div><div className="font-display text-3xl font-extrabold leading-none text-gold">{kn ? 'ಕನ್ನಡ' : 'Kannada'}</div><p className="mt-1 text-[9px] text-white/70">{t('Different regions. Same heart. One Kannada.')}</p></div>
             <nav className="space-y-0.5 px-3">
                 {NAV.map(([h, en, kn, Icon]) => (
                     <Link key={h} href={h} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] text-sm transition ${p === h ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><Icon size={17} />{l === 'kn' ? kn : en}</Link>
                 ))}
             </nav>
-            <div className="mt-auto space-y-0.5 px-3 pb-4 pt-3"><div className="mb-3 border-t border-white/15" />
+            <div className="mt-auto space-y-0.5 px-3 pb-4 pt-3"><div className="mb-3 border-t border-white/15" /><LangToggle className="mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-[7px] text-sm text-white/85 transition hover:bg-white/10" />
                 <Link href={ph} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] text-sm transition ${p === ph ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><PIcon size={17} />{l === 'kn' ? pkn : pen}</Link>
-                {u && <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white/85 transition hover:bg-white/10"><LogOut size={17} />{l === 'kn' ? 'ಲಾಗ್ ಔಟ್' : 'Log out'}</button>}
+                {u && <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white/85 transition hover:bg-white/10"><LogOut size={17} />{t('Log out')}</button>}
             </div>
         </aside>
     )

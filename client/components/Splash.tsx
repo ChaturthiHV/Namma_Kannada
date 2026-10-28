@@ -13,7 +13,7 @@ export default function Splash({ onSkip }: { onSkip: () => void }) {
   }
   return (
     <motion.div
-      role="status" aria-label="Namma Karnataka" onClick={onSkip}
+      role="status" aria-label="ನಮ್ಮ ಕರ್ನಾಟಕ" onClick={onSkip}
       initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.03 }} transition={{ duration: 0.7, ease: 'easeInOut' }}
       className="fixed inset-0 z-[100] grid cursor-pointer place-items-center overflow-hidden bg-[#0d0608]"
     >
@@ -26,7 +26,7 @@ export default function Splash({ onSkip }: { onSkip: () => void }) {
 
       <motion.div variants={group} initial="hidden" animate="show" className="relative flex flex-col items-center px-6 text-center">
         <motion.img
-          variants={rise} src="/logo.png" alt="Namma Karnataka logo" draggable={false}
+          variants={rise} src="/logo.png" alt="ನಮ್ಮ ಕನ್ನಡ" draggable={false}
           className="h-[clamp(200px,30vh,280px)] w-auto select-none object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.55)]"
         />
 
@@ -39,7 +39,7 @@ export default function Splash({ onSkip }: { onSkip: () => void }) {
           aria-hidden variants={{ hidden: { scaleX: 0, opacity: 0 }, show: { scaleX: 1, opacity: 1, transition: { duration: 0.9, ease } } }}
           className="mt-5 block h-px w-24 origin-center bg-gradient-to-r from-transparent via-[#ffc21a] to-transparent"
         />
-        <motion.p variants={rise} className="mt-3 text-[11px] tracking-[0.18em] text-white/60 sm:text-xs">DIFFERENT REGIONS · SAME HEART · ONE KANNADA</motion.p>
+        <motion.p variants={rise} className="mt-3 text-[11px] text-white/60 sm:text-xs">ಬೇರೆ ಬೇರೆ ಪ್ರದೇಶ · ಒಂದೇ ಹೃದಯ · ಒಂದೇ ಕನ್ನಡ</motion.p>
       </motion.div>
     </motion.div>
   )

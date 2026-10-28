@@ -65,22 +65,24 @@ export function useEntries() {
  }
  const hasVoted = (e: any, u: any) => !!u && (db ? !!e.voted : (votes[e.id] || []).includes(u.phone))
  // Approve a pending entry. Only speakers of the same dialect can vote, once each, and never on their own entry.
- const vote = async (e: any, u: any): Promise<{ msg: string; err?: boolean }> => {
-  if (!u) return { msg: 'Please log in to approve.', err: true }
-  if (e.status !== 'pending') return { msg: 'This entry is already verified.', err: true }
-  if (u.region !== e.region) return { msg: `Only ${rn(e.region)} speakers can approve this.`, err: true }
+ // L = { t, region } from useI18n so messages come back in the active language.
+ const vote = async (e: any, u: any, L: { t: (en: string, v?: any) => string; region: (id: string) => string } = { t: (s: string, v?: any) => s.replace(/\{(\w+)\}/g, (_, k) => v?.[k] ?? ''), region: rn }): Promise<{ msg: string; err?: boolean }> => {
+  const { t } = L, name = L.region(e.region)
+  if (!u) return { msg: t('Please log in to approve.'), err: true }
+  if (e.status !== 'pending') return { msg: t('This entry is already verified.'), err: true }
+  if (u.region !== e.region) return { msg: t('Only {name} speakers can approve this.', { name }), err: true }
   if (db) {
    try {
     const { entry } = await api(`/entries/${e.id}/vote`, { method: 'POST' })
     setDb(db.map(a => a.id === entry.id ? { ...a, ...entry, voted: true } : a))
-    return { msg: entry.status === 'verified' ? `Verified! ${VOTES_NEEDED} speakers approved it.` : `Approved. ${entry.votes}/${VOTES_NEEDED} approvals so far.` }
-   } catch (err: any) { return { msg: err.status ? err.message : 'Cannot reach the server. Please try again.', err: true } }
+    return { msg: entry.status === 'verified' ? t('Verified! {n} speakers approved it.', { n: VOTES_NEEDED }) : t('Approved. {a}/{b} approvals so far.', { a: entry.votes, b: VOTES_NEEDED }) }
+   } catch (err: any) { return { msg: err.status ? t(err.message) : t('Cannot reach the server. Please try again.'), err: true } }
   }
-  if (e.by && e.by === u.phone) return { msg: "You can't approve your own contribution.", err: true }
+  if (e.by && e.by === u.phone) return { msg: t("You can't approve your own contribution."), err: true }
   const list = votes[e.id] || []
-  if (list.includes(u.phone)) return { msg: 'You have already approved this.', err: true }
+  if (list.includes(u.phone)) return { msg: t('You have already approved this.'), err: true }
   setVotes({ ...votes, [e.id]: [...list, u.phone] })
-  return { msg: list.length + 1 >= VOTES_NEEDED ? `Verified! ${VOTES_NEEDED} speakers approved it.` : `Approved. ${list.length + 1}/${VOTES_NEEDED} approvals so far.` }
+  return { msg: list.length + 1 >= VOTES_NEEDED ? t('Verified! {n} speakers approved it.', { n: VOTES_NEEDED }) : t('Approved. {a}/{b} approvals so far.', { a: list.length + 1, b: VOTES_NEEDED }) }
  }
  return { all: base.filter(e => e.status !== 'rejected'), set, vote, hasVoted }
 }
