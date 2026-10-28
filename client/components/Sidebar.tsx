@@ -25,12 +25,12 @@ export default function Sidebar() {
     return (
         <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-hidden bg-gradient-to-b from-maroon to-maroon2 text-white md:flex">
             <div className="px-5 pb-3 pt-4 [@media(max-height:700px)]:pb-1 [@media(max-height:700px)]:pt-2"><img src="/logo.png" alt={t('Namma Karnataka')} className="mb-1 h-14 w-14 object-contain [@media(max-height:700px)]:h-9 [@media(max-height:700px)]:w-9 drop-shadow-[0_6px_14px_rgba(0,0,0,.4)]" /><div className="font-display text-1xl leading-none text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</div><div className="font-display text-3xl font-extrabold leading-none text-gold">{kn ? 'ಕನ್ನಡ' : 'Kannada'}</div><p className="mt-1 text-[9px] text-white/70">{t('Different regions. Same heart. One Kannada.')}</p></div>
-            <nav className="space-y-0.5 px-3">
+            <nav className="flex min-h-0 flex-1 flex-col gap-0.5 px-3">
                 {NAV.map(([h, en, kn, Icon]) => (
-                    <Link key={h} href={h} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm transition ${p === h ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><Icon size={17} />{l === 'kn' ? kn : en}</Link>
+                    <Link key={h} href={h} className={`flex max-h-12 flex-auto items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm transition ${p === h ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><Icon size={17} />{l === 'kn' ? kn : en}</Link>
                 ))}
             </nav>
-            <div className="mt-2 space-y-0.5 px-3 pb-3 pt-2 [@media(max-height:700px)]:pb-1"><div className="mb-3 border-t border-white/15" /><LangToggle className="mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm text-white/85 transition hover:bg-white/10" />
+            <div className="shrink-0 space-y-0.5 px-3 pb-3 pt-2 [@media(max-height:700px)]:pb-1"><div className="mb-3 border-t border-white/15" /><LangToggle className="mb-1 flex w-full items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm text-white/85 transition hover:bg-white/10" />
                 <Link href={ph} className={`flex items-center gap-3 rounded-lg px-3 py-[7px] [@media(max-height:700px)]:py-[4px] text-sm transition ${p === ph ? 'bg-primary font-semibold text-onprimary shadow-glow' : 'text-white/85 hover:bg-white/10'}`}><PIcon size={17} />{l === 'kn' ? pkn : pen}</Link>
                 {u && <button onClick={logout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 [@media(max-height:700px)]:py-[4px] text-left text-sm text-white/85 transition hover:bg-white/10"><LogOut size={17} />{t('Log out')}</button>}
             </div>
