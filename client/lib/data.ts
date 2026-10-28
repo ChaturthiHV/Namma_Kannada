@@ -39,12 +39,20 @@ export function useLS<T>(k: string, init: T): [T, (v: T) => void] {
  }, [k])
  return [v, (n: T) => { s(n); try { localStorage.setItem(k, JSON.stringify(n)) } catch {}; pushState(k, n); window.dispatchEvent(new Event('ls:' + k)) }]
 }
+/** Approvals from speakers of the same dialect needed before a contribution shows as Verified. */
+export const VOTES_NEEDED = 10
 export function useEntries() {
  const [x, setX] = useLS<any[]>('extra', [])
+ const [votes, setVotes] = useLS<Record<string, string[]>>('votes', {}) // demo mode only: entryId -> voter phones
  const [db, setDb] = useState<any[] | null>(null)
  useEffect(() => { if (API) { api('/entries').then(d => setDb(d.entries)).catch(() => {}); return } }, [])
  const m = new Map(x.map(e => [e.id, e]))
- const base = db ?? [...ENTRIES.map(e => m.get(e.id) || e), ...x.filter(e => !ENTRIES.some(b => b.id === e.id))]
+ const raw = db ?? [...ENTRIES.map(e => m.get(e.id) || e), ...x.filter(e => !ENTRIES.some(b => b.id === e.id))]
+ // A pending entry is shown as verified only after VOTES_NEEDED approvals; otherwise it stays pending.
+ const base = raw.map((e: any) => {
+  const n = db ? (e.votes ?? 0) : (votes[e.id] || []).length
+  return { ...e, votes: n, status: !db && e.status === 'pending' && n >= VOTES_NEEDED ? 'verified' : e.status }
+ })
  const set = async (e: any) => {
   if (API && db) {
    try {
@@ -55,7 +63,26 @@ export function useEntries() {
   }
   setX([...x.filter(a => a.id !== e.id), e])
  }
- return { all: base.filter(e => e.status !== 'rejected'), set }
+ const hasVoted = (e: any, u: any) => !!u && (db ? !!e.voted : (votes[e.id] || []).includes(u.phone))
+ // Approve a pending entry. Only speakers of the same dialect can vote, once each, and never on their own entry.
+ const vote = async (e: any, u: any): Promise<{ msg: string; err?: boolean }> => {
+  if (!u) return { msg: 'Please log in to approve.', err: true }
+  if (e.status !== 'pending') return { msg: 'This entry is already verified.', err: true }
+  if (u.region !== e.region) return { msg: `Only ${rn(e.region)} speakers can approve this.`, err: true }
+  if (db) {
+   try {
+    const { entry } = await api(`/entries/${e.id}/vote`, { method: 'POST' })
+    setDb(db.map(a => a.id === entry.id ? { ...a, ...entry, voted: true } : a))
+    return { msg: entry.status === 'verified' ? `Verified! ${VOTES_NEEDED} speakers approved it.` : `Approved. ${entry.votes}/${VOTES_NEEDED} approvals so far.` }
+   } catch (err: any) { return { msg: err.status ? err.message : 'Cannot reach the server. Please try again.', err: true } }
+  }
+  if (e.by && e.by === u.phone) return { msg: "You can't approve your own contribution.", err: true }
+  const list = votes[e.id] || []
+  if (list.includes(u.phone)) return { msg: 'You have already approved this.', err: true }
+  setVotes({ ...votes, [e.id]: [...list, u.phone] })
+  return { msg: list.length + 1 >= VOTES_NEEDED ? `Verified! ${VOTES_NEEDED} speakers approved it.` : `Approved. ${list.length + 1}/${VOTES_NEEDED} approvals so far.` }
+ }
+ return { all: base.filter(e => e.status !== 'rejected'), set, vote, hasVoted }
 }
 export const rn = (id: string) => REGIONS.find(r => r.id === id)?.n || id
 export const speak = (t: string) => { if (typeof window !== 'undefined' && 'speechSynthesis' in window) { const u = new SpeechSynthesisUtterance(t); u.lang = 'kn-IN'; speechSynthesis.cancel(); speechSynthesis.speak(u) } }

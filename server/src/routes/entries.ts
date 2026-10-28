@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { q, tx } from '../db'
 import { HttpError, wrap } from '../middleware/errors'
 import { optionalAuth, requireAuth, requireRole } from '../middleware/auth'
-import { ENTRY_SELECT } from '../lib/serialize'
+import { ENTRY_SELECT, VOTES_NEEDED } from '../lib/serialize'
 import { searchEntries } from '../lib/search'
 import { isDisrespectful } from '../lib/moderation'
 import { touchActivity } from '../lib/streak'
@@ -34,6 +34,10 @@ r.get('/', optionalAuth, wrap(async (req, res) => {
     where.push(`e.status <> 'rejected'`)
   }
   const { rows } = await q(`${ENTRY_SELECT} ${where.length ? 'where ' + where.join(' and ') : ''} order by e.seq`, params)
+  if (req.user) {
+    const mine = new Set((await q('select entry_id from entry_votes where user_id = $1', [req.user.id])).rows.map((v: any) => v.entry_id))
+    rows.forEach((e: any) => { e.voted = mine.has(e.id) })
+  }
   res.json({ entries: rows })
 }))
 
@@ -84,6 +88,39 @@ r.post('/', requireAuth, wrap(async (req, res) => {
   })
   const { rows } = await q(`${ENTRY_SELECT} where e.id = $1`, [entry])
   res.status(201).json({ entry: rows[0] })
+}))
+
+// ---- Community verification: 10 speakers of the same dialect must approve ----------
+r.post('/:id/vote', requireAuth, wrap(async (req, res) => {
+  const id = req.params.id
+  await tx(async c => {
+    const cur = (await c.query('select id, status, region_id, submitted_by from entries where id = $1 for update', [id])).rows[0]
+    if (!cur) throw new HttpError(404, 'Entry not found.')
+    if (cur.status !== 'pending') throw new HttpError(409, 'This entry is no longer waiting for approval.')
+    // The voter's dialect: their saved region, or the region of their district if none was saved.
+    const myRegion = req.user.home_region
+      || (await c.query('select region_id from districts where lower(name) = lower($1)', [req.user.district || ''])).rows[0]?.region_id
+    if (!myRegion || myRegion !== cur.region_id)
+      throw new HttpError(403, 'Only speakers of this dialect can approve it.')
+    if (cur.submitted_by && cur.submitted_by === req.user.id) throw new HttpError(403, "You can't approve your own contribution.")
+
+    const ins = await c.query('insert into entry_votes (entry_id, user_id) values ($1,$2) on conflict do nothing', [id, req.user.id])
+    if (!ins.rowCount) throw new HttpError(409, 'You have already approved this entry.')
+
+    const n = (await c.query('select count(*)::int as n from entry_votes where entry_id = $1', [id])).rows[0].n
+    if (n >= VOTES_NEEDED) {
+      await c.query(
+        `insert into entry_versions (entry_id, version, snapshot, edited_by)
+         select e.id, e.version, to_jsonb(e), null from entries e where e.id = $1`, [id])
+      await c.query("update entries set status = 'verified', version = version + 1, updated_at = now() where id = $1", [id])
+      await c.query(
+        'insert into moderation_log (entry_id, reviewer_id, from_status, to_status, note) values ($1,null,$2,$3,$4)',
+        [id, 'pending', 'verified', `Approved by ${VOTES_NEEDED} speakers of the same dialect`])
+      if (cur.submitted_by) await c.query('update users set points = points + 10 where id = $1', [cur.submitted_by])
+    }
+  })
+  const { rows } = await q(`${ENTRY_SELECT} where e.id = $1`, [id])
+  res.json({ entry: { ...rows[0], voted: true }, votesNeeded: VOTES_NEEDED })
 }))
 
 // ---- Moderation: approve / reject / dispute ---------------------------------------

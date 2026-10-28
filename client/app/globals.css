@@ -41,3 +41,18 @@ body { overscroll-behavior-y: none; }
 @keyframes nkpulse{0%,100%{filter:drop-shadow(0 0 2px #ffc21a)}50%{filter:drop-shadow(0 0 12px #ffc21a)}}
 .nk-pulse{animation:nkpulse 1.8s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.nk-pulse{animation:none}}
+
+
+/* Custom scrollbars (all pages, light + dark) */
+:root, [data-theme="light"] { --sb-track: rgba(142,16,21,.06); --sb-thumb: #c98a2b; --sb-thumb-hover: #8e1015; }
+[data-theme="dark"] { --sb-track: rgba(255,255,255,.05); --sb-thumb: #b8841f; --sb-thumb-hover: #ffc21a; }
+* { scrollbar-width: thin; scrollbar-color: var(--sb-thumb) transparent; }
+html { scrollbar-color: var(--sb-thumb) var(--sb-track); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--sb-track); border-radius: 999px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--sb-thumb), var(--sb-thumb-hover));
+  border-radius: 999px; border: 2px solid transparent; background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--sb-thumb-hover); background-clip: padding-box; border: 2px solid transparent; }
+::-webkit-scrollbar-corner { background: transparent; }

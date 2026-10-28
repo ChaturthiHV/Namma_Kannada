@@ -12,7 +12,10 @@ export const ENTRY_COLS = `
   e.literal_meaning as "literalMeaning", e.example_sentence as example,
   e.example_translation as "exampleTranslation", e.version,
   e.submitted_by as "submittedBy", e.created_at as "createdAt",
-  (select count(*)::int from audio a where a.entry_id = e.id) as "audioCount"`
+  (select count(*)::int from audio a where a.entry_id = e.id) as "audioCount",
+  (select count(*)::int from entry_votes v where v.entry_id = e.id) as votes`
+/** Approvals from speakers of the same dialect needed before a contribution is shown as verified. */
+export const VOTES_NEEDED = 10
 
 export const ENTRY_FROM = `from entries e join concepts c on c.id = e.concept_id`
 export const ENTRY_SELECT = `select ${ENTRY_COLS} ${ENTRY_FROM}`

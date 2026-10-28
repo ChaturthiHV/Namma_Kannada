@@ -9,14 +9,14 @@ export default function Hero() {
   const u = useUser()
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#ffe9a8] to-page min-h-[340px] dark:from-[#3a1410]">
-      <div className="absolute right-[18%] top-10 h-44 w-44 rounded-full bg-gold/60 blur-sm" />
-      <svg className="absolute bottom-0 right-0 w-[60%] h-[75%]" viewBox="0 0 600 260" preserveAspectRatio="xMaxYMax slice" aria-hidden>
-        <path d="M0 200 Q120 90 240 170 T480 130 T600 160 V260 H0Z" fill="#6b9a4a" opacity=".75" />
-        <path d="M0 230 Q150 170 300 215 T600 200 V260 H0Z" fill="#3f7a3a" />
-        <path d="M120 215 L170 110 L220 215Z" fill="#a0562a" stroke="#6b3418" strokeWidth="3" />
-        <path d="M330 220 Q360 190 390 220Z" fill="#c0392b" />
-        <path d="M0 250 Q200 225 420 250 T600 240 V260 H0Z" fill="#c8202a" />
-      </svg>
+      {/* Mysore Palace (transparent cutout, works on light + dark themes) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/palace.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-2 w-[58%] max-w-[820px] select-none object-contain object-bottom drop-shadow-[0_6px_16px_rgba(122,26,26,0.35)] dark:drop-shadow-[0_0_22px_rgba(255,170,60,0.35)]"
+      />
       <div className="absolute right-5 top-5 flex items-center gap-3">
         <ThemeToggle />
         <Link href="/profile" className="flex items-center gap-2 rounded-lg bg-maroon px-4 py-2 text-sm font-semibold text-white shadow-card hover:bg-maroon2 transition">

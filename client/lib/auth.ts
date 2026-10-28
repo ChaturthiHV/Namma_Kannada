@@ -13,6 +13,18 @@ export const DISTRICTS: Record<string, string[]> = {
   coastal: ['Dakshina Kannada', 'Udupi', 'Uttara Kannada'],
   malnad: ['Shivamogga', 'Chikkamagaluru', 'Kodagu'],
 }
+// Find a user's dialect area even if the saved value is an id, a name, or missing (falls back to the district).
+export function findRegion(region?: string, district?: string) {
+  const v = (region || '').trim().toLowerCase()
+  let r = REGIONS.find(x => x.id.toLowerCase() === v || x.n.toLowerCase() === v)
+  if (!r && v) r = REGIONS.find(x => x.id.toLowerCase().startsWith(v) || v.startsWith(x.id.toLowerCase()))
+  if (!r && district) {
+    const d = district.trim().toLowerCase()
+    const id = Object.keys(DISTRICTS).find(k => DISTRICTS[k].some(n => n.toLowerCase() === d))
+    if (id) r = REGIONS.find(x => x.id === id)
+  }
+  return r
+}
 export type User = { name: string; phone: string; region: string; district: string }
 type Stored = User & { hash: string }
 const U = 'nk_users', S = 'nk_session'

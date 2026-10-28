@@ -89,6 +89,15 @@ create table if not exists entry_versions (
 );
 
 
+-- Community verification: a pending entry becomes verified once 10 speakers of the same dialect approve it.
+create table if not exists entry_votes (
+  entry_id   text not null references entries(id) on delete cascade,
+  user_id    uuid not null references users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (entry_id, user_id)
+);
+create index if not exists entry_votes_user_idx on entry_votes(user_id);
+
 -- ---------- Audio (consent is mandatory) ----------
 create table if not exists audio (
   id           uuid primary key default gen_random_uuid(),
