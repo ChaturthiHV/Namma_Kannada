@@ -12,8 +12,8 @@ export default function RegionExplorer() {
     <section className="rounded-2xl bg-surface p-5 shadow-card">
       <h2 className="font-display text-2xl font-bold text-maroon dark:text-gold">Explore by Region</h2>
       <p className="text-xs text-muted">{u ? 'Your dialect area is glowing. Tap any region to explore it.' : 'Click on a region to discover its unique words, phrases, audio and culture.'}</p>
-      <div className="mt-3 grid grid-cols-[150px_1fr] gap-4">
-        <RegionMap sel={sel} onPick={setSel} className="w-full" />
+      <div className="mt-3 grid grid-cols-1 items-center gap-4 sm:grid-cols-[minmax(240px,300px)_1fr]">
+        <RegionMap sel={sel} onPick={setSel} className="mx-auto h-72 w-full sm:h-auto sm:max-h-[26rem]" />
         <ul className="space-y-2">
           {REGIONS.map(r => (
             <li key={r.id}>
