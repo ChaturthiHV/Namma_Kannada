@@ -21,7 +21,7 @@ export default function Hero() {
         src="/palace.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-2 w-[58%] max-w-[820px] select-none object-contain object-bottom"
+        className="pointer-events-none absolute bottom-0 right-2 w-[70%] max-w-[820px] select-none object-contain object-bottom opacity-25 xl:w-[44%] xl:opacity-100 2xl:w-[52%] min-[1700px]:w-[58%]"
       />
       <div className="absolute right-5 top-5 flex items-center gap-3">
         <ThemeToggle />
@@ -30,19 +30,19 @@ export default function Hero() {
           <span>{u ? L.nm(u.name).split(' ')[0] : t('Profile')}</span>
         </Link>
       </div>
-      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="relative p-10 max-w-xl">
-        <h1 className="font-display text-5xl font-extrabold leading-[1.05] text-maroon dark:text-gold">
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} className="relative z-10 max-w-xl p-6 sm:p-10">
+        <h1 className="font-display text-4xl font-extrabold sm:text-5xl leading-[1.05] text-maroon dark:text-gold">
           {t('Different regions.')}<br />{t('Same heart.')} {t('One Kannada.')}
         </h1>
         <p className="mt-5 text-lg text-muted max-w-sm">{t('Explore, hear, compare and keep the rich regional dialects of Kannada alive.')}</p>
-        <label className="mt-6 flex items-center gap-2 rounded-full bg-surface p-1.5 pl-4 shadow-card max-w-md">
+        <label className="mt-6 flex items-center gap-2 rounded-full bg-surface p-1.5 pl-4 shadow-card max-w-sm xl:max-w-md">
           <Search size={16} className="text-muted" />
           <input className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted" placeholder={t('Search words, phrases, regions...')} aria-label={t('Search')} />
           <span className="grid h-10 w-10 place-items-center rounded-full bg-primary text-onprimary shadow-glow"><Search size={18} /></span>
         </label>
       </motion.div>
       <motion.div animate={{ y: [0, -6, 0] }} transition={{ repeat: Infinity, duration: 4 }}
-        className="absolute right-[30%] top-8 hidden lg:block rounded-2xl bg-primary px-5 py-3 text-onprimary shadow-glow">
+        className="absolute right-[28%] top-6 z-10 hidden xl:block rounded-2xl bg-primary px-5 py-3 text-onprimary shadow-glow">
         <div className="text-xs">{t('Word of the Day')}</div>
         <div className="flex items-center gap-3">
           <div><div className="font-kn text-2xl font-bold text-maroon">{wk}</div><div className="text-xs">{kn ? wm : `(${wr}) · ${we}`}</div></div>

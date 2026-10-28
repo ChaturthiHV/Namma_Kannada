@@ -218,3 +218,25 @@ create table if not exists scenario_nodes (
   choices     jsonb not null default '[]'::jsonb,
   primary key (scenario_id, node_id)
 );
+
+-- ---------- Cultural notes and passport stamps ----------
+create table if not exists cultural_notes (
+  id         serial primary key,
+  entry_id   text not null references entries(id) on delete cascade,
+  story      text not null,
+  tags       text[] not null default '{}',
+  created_at timestamptz not null default now()
+);
+
+create table if not exists stamps (
+  id        text primary key,
+  region_id text references regions(id) on delete cascade,
+  name      text not null
+);
+
+create table if not exists user_stamps (
+  user_id    uuid references users(id) on delete cascade,
+  stamp_id   text references stamps(id) on delete cascade,
+  earned_at  timestamptz not null default now(),
+  primary key (user_id, stamp_id)
+);
