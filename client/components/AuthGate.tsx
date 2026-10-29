@@ -39,7 +39,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
           </header>
           <div className="flex min-h-screen">
             <Sidebar />
-            <main className="min-w-0 flex-1 overflow-x-hidden pb-32 md:pb-0 md:pt-[env(safe-area-inset-top)]">{children}</main>
+            <main className="min-w-0 flex-1 pb-32 md:pb-0 md:pt-[env(safe-area-inset-top)]">{children}</main>
           </div>
           <MobileNav />
         </>

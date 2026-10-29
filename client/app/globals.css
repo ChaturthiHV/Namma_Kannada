@@ -33,10 +33,9 @@ select option { background: #fffaf0; color: #3a1218; }
 .inp{@apply w-full rounded-lg border border-border bg-surface2 px-3 py-2 text-sm text-ink outline-none focus:ring-2 focus:ring-primary}
 }
 /* App-like mobile feel */
-html { -webkit-tap-highlight-color: transparent; max-width: 100%; overflow-x: hidden; }
+html { -webkit-tap-highlight-color: transparent; }
 img, svg, video, audio, canvas { max-width: 100%; }
-h1, h2, h3, p, li, button, a, label { overflow-wrap: anywhere; }
-body { overflow-x: hidden; }
+@media (max-width: 767px) { html, body { overflow-x: clip; } h1, h2, h3, p, li, button, a, label { overflow-wrap: anywhere; } }
 body { overscroll-behavior-y: none; }
 .safe-t { padding-top: env(safe-area-inset-top); }
 .safe-b { padding-bottom: env(safe-area-inset-bottom); }
