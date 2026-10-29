@@ -37,13 +37,13 @@ export default function Detective() {
   if (ok) { const s = score + 10 + tm * 2 + streak * 5; setScore(s); setStreak(streak + 1); if (s > best) setBest(s); if (!exp.includes(r)) setExp([...exp, r]) } else setStreak(0)
  }
  return (
-  <div className="p-5"><PageHead en="Dialect Detective" kn="ಉಪಭಾಷೆ ಪತ್ತೇದಾರ" sub={t('Guess the region. No login needed.')} />
-   <div className="mx-auto max-w-xl rounded-2xl bg-[#2a1608] p-6 text-amber-100 shadow-card">
-    <div className="mb-4 flex justify-between text-sm"><span>{t('Score {score} · Best {best}', { score, best })}</span><span className="flex items-center gap-1"><Flame size={16} className="text-orange-400" />{streak}</span><span aria-live="polite">{t('⏱ {n}s', { n: cur ? tm : 0 })}</span></div>
+  <div className="p-4 sm:p-5"><PageHead en="Dialect Detective" kn="ಉಪಭಾಷೆ ಪತ್ತೇದಾರ" sub={t('Guess the region. No login needed.')} />
+   <div className="mx-auto max-w-xl rounded-2xl bg-[#2a1608] p-4 text-amber-100 sm:p-6 shadow-card">
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm"><span>{t('Score {score} · Best {best}', { score, best })}</span><span className="flex items-center gap-1"><Flame size={16} className="text-orange-400" />{streak}</span><span aria-live="polite">{t('⏱ {n}s', { n: cur ? tm : 0 })}</span></div>
     {!cur ? <div className="text-center"><p className="mb-3">{used.length ? t('Round over! Final score {score}.', { score }) : t('Ready, detective?')}</p><button className="btn" onClick={() => { setScore(0); setStreak(0); next([]) }}>{used.length ? t('Play again') : t('Start')}</button></div> : <>
-     <div className="mb-4 flex items-center gap-3 rounded-xl bg-black/30 p-4"><Play t={cur.kn} src={cur.audio} /><div><div className="font-kn text-2xl font-bold">{cur.kn}</div><div className="text-xs opacity-70">{t('“{en}” — which region?', { en: tr(cur.en) })}</div></div><Wave n={14} /></div>
-     <div className="grid grid-cols-2 gap-3">{opts.map(o => <button key={o} disabled={!!res} onClick={() => ans(o)} className={`rounded-xl border border-amber-200/30 px-3 py-3 text-sm font-semibold ${res && o === cur.region ? 'bg-green-600' : 'bg-white/10 hover:bg-white/20'}`}>{region(o)}{res && o === cur.region ? ' ✓' : ''}</button>)}</div>
-     {res && <div className="mt-4 flex items-center justify-between" role="status"><span>{res === 'right' ? t('🎉 Correct!') : t('Not quite — it was {name}.', { name: region(cur.region) })}</span><button className="btn" onClick={() => next()}>{t('Next')}</button></div>}</>}
+     <div className="mb-4 flex items-center gap-3 rounded-xl bg-black/30 p-3 sm:p-4"><Play t={cur.kn} src={cur.audio} /><div className="min-w-0 flex-1"><div className="font-kn text-2xl font-bold">{cur.kn}</div><div className="text-xs opacity-70">{t('“{en}” — which region?', { en: tr(cur.en) })}</div></div><div className="hidden sm:block"><Wave n={14} /></div></div>
+     <div className="grid grid-cols-2 gap-3">{opts.map(o => <button key={o} disabled={!!res} onClick={() => ans(o)} className={`min-w-0 rounded-xl border border-amber-200/30 px-2 py-3 text-xs font-semibold sm:px-3 sm:text-sm ${res && o === cur.region ? 'bg-green-600' : 'bg-white/10 hover:bg-white/20'}`}>{region(o)}{res && o === cur.region ? ' ✓' : ''}</button>)}</div>
+     {res && <div className="mt-4 flex flex-wrap items-center justify-between gap-3" role="status"><span>{res === 'right' ? t('🎉 Correct!') : t('Not quite — it was {name}.', { name: region(cur.region) })}</span><button className="btn" onClick={() => next()}>{t('Next')}</button></div>}</>}
    </div></div>
  )
 }

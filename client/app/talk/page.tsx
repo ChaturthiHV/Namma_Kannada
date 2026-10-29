@@ -17,9 +17,9 @@ export default function Talk() {
  useEffect(() => { if (API) api('/scenarios').then(d => Object.keys(d.scenarios || {}).length && setS(d.scenarios)).catch(() => {}) }, [])
  const [tab, setTab] = useState('Shopping'); const [n, setN] = useState('n0'); const s = S[tab][n]
  return (
-  <div className="p-5"><PageHead en="Talk to a Local" kn="ಸ್ಥಳೀಯರೊಂದಿಗೆ ಮಾತು" />
+  <div className="p-4 sm:p-5"><PageHead en="Talk to a Local" kn="ಸ್ಥಳೀಯರೊಂದಿಗೆ ಮಾತು" />
    <div className="mb-4 flex flex-wrap gap-2">{['Shopping', 'Travelling', 'Village', 'Elder'].map(k => <button key={k} disabled={!S[k]} onClick={() => { setTab(k); setN('n0') }} className={`chip ${tab === k ? 'on' : ''}`}>{t(k)}{!S[k] && t(' (soon)')}</button>)}</div>
-   <div className="card max-w-xl space-y-4"><div className="text-xs text-muted">{t(s.w)}</div><div className="flex items-center justify-between rounded-2xl rounded-tl-none bg-surface2 p-4"><Phrase e={s.e} /><Play t={s.e.kn} /></div>
+   <div className="card max-w-xl space-y-4"><div className="text-xs text-muted">{t(s.w)}</div><div className="flex items-center justify-between gap-3 rounded-2xl rounded-tl-none bg-surface2 p-4"><Phrase e={s.e} /><Play t={s.e.kn} /></div>
     <div className="flex flex-wrap gap-2">{s.c.map(([label, to]: any) => <button key={label} className="btn" onClick={() => setN(to)}>{t(label)}</button>)}</div></div></div>
  )
 }

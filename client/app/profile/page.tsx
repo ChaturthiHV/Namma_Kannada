@@ -17,9 +17,9 @@ const LEVELS: [number, string, string][] = [
 ]
 
 const Stat = ({ icon: I, l, v, tint }: any) => (
- <div className="card flex items-center gap-3 !p-4">
+ <div className="card flex min-w-0 items-center gap-3 !p-3 sm:!p-4">
   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl" style={{ background: tint + '26', color: tint }}><I size={22} /></span>
-  <div><div className="text-2xl font-bold leading-none text-ink">{v}</div><div className="mt-1 text-xs text-muted">{l}</div></div>
+  <div className="min-w-0"><div className="text-2xl font-bold leading-none text-ink">{v}</div><div className="mt-1 text-xs text-muted">{l}</div></div>
  </div>
 )
 
@@ -63,9 +63,9 @@ export default function ProfilePage() {
   else { setMsg({ text: 'Profile updated.', err: false }); setEditing(false) }
  }
 
- if (!ready) return <div className="p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" /></div>
+ if (!ready) return <div className="p-4 sm:p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" /></div>
  if (!u) return (
-  <div className="p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" sub={t('Log in or create an account to save your progress and light up your home on the map.', 'ನಿಮ್ಮ ಪ್ರಗತಿಯನ್ನು ಉಳಿಸಲು ಲಾಗ್ ಇನ್ ಆಗಿ ಅಥವಾ ಖಾತೆ ರಚಿಸಿ.')} />
+  <div className="p-4 sm:p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" sub={t('Log in or create an account to save your progress and light up your home on the map.', 'ನಿಮ್ಮ ಪ್ರಗತಿಯನ್ನು ಉಳಿಸಲು ಲಾಗ್ ಇನ್ ಆಗಿ ಅಥವಾ ಖಾತೆ ರಚಿಸಿ.')} />
    <div className="card max-w-md"><AuthScreen compact /></div></div>
  )
 
@@ -85,15 +85,15 @@ export default function ProfilePage() {
 
 
  return (
-  <div className="p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" sub={t('Your Kannada, your district, your progress.', 'ನಿಮ್ಮ ಕನ್ನಡ, ನಿಮ್ಮ ಜಿಲ್ಲೆ, ನಿಮ್ಮ ಪ್ರಗತಿ.')} />
+  <div className="p-4 sm:p-5"><PageHead en="My Profile" kn="ನನ್ನ ಪ್ರೊಫೈಲ್" sub={t('Your Kannada, your district, your progress.', 'ನಿಮ್ಮ ಕನ್ನಡ, ನಿಮ್ಮ ಜಿಲ್ಲೆ, ನಿಮ್ಮ ಪ್ರಗತಿ.')} />
 
    {/* Header card */}
    <div className="card relative mb-5 overflow-hidden !p-0">
     <div className="h-24 w-full" style={{ background: `linear-gradient(120deg, ${accent}, ${accent}99 55%, #ffc21a)` }} />
-    <div className="flex flex-wrap items-end gap-4 px-5 pb-5">
+    <div className="flex flex-wrap items-end gap-4 px-4 pb-5 sm:px-5">
      <div className="-mt-10 grid h-20 w-20 shrink-0 place-items-center rounded-full border-4 border-surface text-3xl font-bold shadow-card" style={{ background: accent, color: fg(accent) }}>{initial}</div>
-     <div className="min-w-0 flex-1 pt-3">
-      <h2 className="truncate font-display text-2xl font-bold">{uname}</h2>
+     <div className="min-w-0 flex-1 basis-48 pt-3">
+      <h2 className="break-words font-display text-2xl font-bold">{uname}</h2>
       <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
        {u.phone && <span className="flex items-center gap-1"><Phone size={13} />{u.phone}</span>}
        {u.district && <span className="flex items-center gap-1"><MapPin size={13} />{dName(u.district)}</span>}
@@ -103,7 +103,7 @@ export default function ProfilePage() {
        <span className="chip flex items-center gap-1.5 font-semibold"><Trophy size={12} />{kn ? LEVELS[li][2] : LEVELS[li][1]}</span>
       </div>
      </div>
-     <div className="flex gap-2">
+     <div className="flex w-full flex-wrap gap-2 sm:w-auto">
       <button className="btn2" onClick={() => (editing ? setEditing(false) : startEdit())}><Pencil size={14} />{editing ? t('Cancel', 'ರದ್ದು') : t('Edit profile', 'ಎಡಿಟ್')}</button>
       <button className="btn2 !bg-danger" onClick={logout}><LogOut size={14} />{t('Log out', 'ಲಾಗ್ ಔಟ್')}</button>
      </div>
@@ -154,7 +154,7 @@ export default function ProfilePage() {
    <div className="grid gap-5 lg:grid-cols-2">
     <div className="space-y-5">
      <div className="card"><h2 className="mb-3 font-display text-lg font-bold">{t('Your place on the map', 'ನಕ್ಷೆಯಲ್ಲಿ ನಿಮ್ಮ ಸ್ಥಾನ')}</h2>
-      <RegionMap me={{ region: r?.id || '', district: u.district }} className="mx-auto h-72 max-w-full" /></div>
+      <RegionMap me={{ region: r?.id || '', district: u.district }} className="mx-auto h-64 max-w-full sm:h-72" /></div>
 
      <div className="card"><h2 className="mb-3 font-display text-lg font-bold">{t('Regions explored', 'ನೋಡಿದ ಪ್ರದೇಶಗಳು')}</h2>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">{REGIONS.map(x => { const done = Array.isArray(explored) && explored.includes(x.id); return (
@@ -171,13 +171,13 @@ export default function ProfilePage() {
        <div><div className="mb-1.5 text-xs font-semibold text-muted">{t('Districts in your dialect area', 'ನಿಮ್ಮ ಉಪಭಾಷೆ ಪ್ರದೇಶದ ಜಿಲ್ಲೆಗಳು')}</div>
         <div className="flex flex-wrap gap-2">{(DISTRICTS[r.id] || []).map(d => <span key={d} className={`chip ${d.toLowerCase() === (u.district || '').toLowerCase() ? 'on' : ''}`}>{dName(d)}</span>)}</div></div>
        {myWords.length > 0 && <div><div className="mb-1.5 text-xs font-semibold text-muted">{t('Words from your dialect', 'ನಿಮ್ಮ ಉಪಭಾಷೆಯ ಪದಗಳು')}</div>
-        <ul className="space-y-2">{myWords.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 px-3 py-2"><div><div className="font-kn text-lg font-bold leading-tight">{e.kn}</div><div className="text-xs text-muted">{kn ? L.tr(e.en) : `${e.rom} · ${e.en}`}</div></div><Play t={e.kn} src={e.audio} /></li>)}</ul></div>}
+        <ul className="space-y-2">{myWords.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-3 rounded-xl bg-surface2 px-3 py-2"><div className="min-w-0"><div className="font-kn text-lg font-bold leading-tight">{e.kn}</div><div className="text-xs text-muted">{kn ? L.tr(e.en) : `${e.rom} · ${e.en}`}</div></div><Play t={e.kn} src={e.audio} /></li>)}</ul></div>}
       </> : <p className="text-sm text-muted">{t('Set your dialect to see details about your Kannada.', 'ನಿಮ್ಮ ಕನ್ನಡದ ವಿವರಗಳನ್ನು ನೋಡಲು ಉಪಭಾಷೆ ಆರಿಸಿ.')}</p>}
      </div>
 
 
      <div className="card"><div className="mb-3 flex items-center justify-between"><h2 className="font-display text-lg font-bold">{t('My contributions', 'ನನ್ನ ಕೊಡುಗೆಗಳು')}</h2><Link href="/contribute" className="text-xs font-semibold text-maroon underline dark:text-gold">{t('Add a word', 'ಪದ ಸೇರಿಸಿ')}</Link></div>
-      {mine.length ? <ul className="space-y-2">{mine.map((e: any) => <li key={e.id} className="flex items-center justify-between gap-2 rounded-lg bg-surface2 p-2 text-sm">
+      {mine.length ? <ul className="space-y-2">{mine.map((e: any) => <li key={e.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-surface2 p-2 text-sm">
        <span className="min-w-0"><b className="font-kn">{e.kn}</b> · {L.tr(e.en)}{e.status === 'pending' && <span className="ml-2 text-[11px] text-muted">{Math.min(e.votes || 0, VOTES_NEEDED)}/{VOTES_NEEDED} {t('approvals', 'ಅನುಮೋದನೆ')}</span>}</span><Badge s={e.status} /></li>)}</ul>
        : <p className="text-sm text-muted">{t('You haven’t contributed yet. Share a word or phrase from your dialect!', 'ನೀವು ಇನ್ನೂ ಕೊಡುಗೆ ನೀಡಿಲ್ಲ. ನಿಮ್ಮ ಉಪಭಾಷೆಯ ಪದವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ!')}</p>}</div>
 

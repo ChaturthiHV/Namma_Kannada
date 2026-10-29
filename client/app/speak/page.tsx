@@ -28,10 +28,10 @@ export default function Speak() {
  const share = async () => { try { await api(`/entries/${e.id}/audio`, { method: 'POST', body: form(blob!) }); setMsg('Thank you! Your recording was shared.'); loadClips() } catch (x: any) { setErr(x.message || 'Request failed') } }
  const both = async () => { await speak(e.kn, e.audio); if (url) new Audio(url).play() }
  return (
-  <div className="p-5"><PageHead en="Speak Like a Local" kn="ಸ್ಥಳೀಯರಂತೆ ಮಾತು" sub={t('Listen, record, compare. Feedback is approximate, never pass/fail.')} />
+  <div className="p-4 sm:p-5"><PageHead en="Speak Like a Local" kn="ಸ್ಥಳೀಯರಂತೆ ಮಾತು" sub={t('Listen, record, compare. Feedback is approximate, never pass/fail.')} />
    <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
-    <div className="card space-y-4"><div className="flex items-center justify-between"><Phrase e={e} /><Play t={e.kn} src={e.audio} /></div><Wave on={rec} n={32} />
-     <label className="flex items-center gap-2 text-xs"><input type="checkbox" checked={ok} onChange={x => setOk(x.target.checked)} />{API ? t('I consent to my recording being scored and, only if I press Share, played for the community.') : t('I consent to my recording being played here (stays on this device).')}</label>
+    <div className="card space-y-4"><div className="flex items-center justify-between gap-3"><Phrase e={e} /><Play t={e.kn} src={e.audio} /></div><Wave on={rec} n={32} />
+     <label className="flex items-start gap-2 text-xs"><input type="checkbox" className="mt-0.5 shrink-0" checked={ok} onChange={x => setOk(x.target.checked)} />{API ? t('I consent to my recording being scored and, only if I press Share, played for the community.') : t('I consent to my recording being played here (stays on this device).')}</label>
      <div className="flex flex-wrap gap-2">
       {!rec ? <button className="btn !bg-red-600 !text-white" disabled={!ok} onClick={start}><Mic size={16} />{t('Record')}</button> : <button className="btn !bg-red-600 !text-white animate-pulse" onClick={stop}><Square size={16} />{t('Stop')}</button>}
       <button className="btn2" onClick={both} disabled={!url}>{t('Play both')}</button>
@@ -39,7 +39,7 @@ export default function Speak() {
       {API && <button className="btn2" disabled={!blob || !ok} onClick={share}>{t('Share')}</button>}
       <button className="chip" onClick={() => setI(i + 1)}>{t('Next phrase')}</button></div>
      {url && <audio controls src={url} className="w-full" />}
-     <input type="file" accept="audio/*" className="text-xs" aria-label={t('Upload audio')} onChange={x => { const f = x.target.files?.[0]; if (f) { setBlob(f); setUrl(URL.createObjectURL(f)) } }} />
+     <input type="file" accept="audio/*" className="w-full min-w-0 text-xs" aria-label={t('Upload audio')} onChange={x => { const f = x.target.files?.[0]; if (f) { setBlob(f); setUrl(URL.createObjectURL(f)) } }} />
      {msg && <p role="status" className="text-sm">{t(msg)}</p>}
      {clips.length > 0 && <div className="space-y-1"><div className="text-xs text-muted">{t('Community recordings')}</div>{clips.map(c => <audio key={c.id} controls src={c.url} className="w-full" />)}</div>}
      {err && <p role="alert" className="text-sm text-red-600">{t(err)}</p>}</div>

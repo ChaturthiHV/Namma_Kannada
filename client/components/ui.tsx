@@ -13,14 +13,14 @@ export function LangToggle({ className = '' }: { className?: string }) {
 export function PageHead({ en, kn, sub }: any) {
  const L = useI18n()
  return (
-  <header className="mb-5 flex flex-wrap items-start justify-between gap-3">
-   <div><h1 className="font-display text-3xl font-extrabold text-maroon dark:text-gold">{L.kn ? (kn ?? L.t(en)) : en}</h1>{sub && <p className="text-sm text-muted">{sub}</p>}</div>
-   <div className="flex items-center gap-2"><LangToggle /><ThemeToggle /></div>
+  <header className="mb-4 flex flex-wrap items-start justify-between gap-3 sm:mb-5">
+   <div className="min-w-0 flex-1 basis-56"><h1 className="font-display text-2xl font-extrabold leading-tight text-maroon dark:text-gold sm:text-3xl">{L.kn ? (kn ?? L.t(en)) : en}</h1>{sub && <p className="text-sm text-muted">{sub}</p>}</div>
+   <div className="flex shrink-0 items-center gap-2"><LangToggle className="btn2 hidden md:inline-flex" /><ThemeToggle /></div>
   </header>
  )
 }
 export const Wave = ({ on = false, n = 22 }: any) => (
- <div className="flex h-8 items-center gap-0.5" aria-hidden>
+ <div className="flex h-8 max-w-full items-center gap-0.5 overflow-hidden" aria-hidden>
   {Array.from({ length: n }, (_, i) => <motion.i key={i} className="w-1 rounded bg-maroon/70 dark:bg-gold/80" animate={{ height: on ? [6, 8 + ((i * 7) % 22), 6] : 6 + ((i * 5) % 16) }} transition={{ repeat: on ? Infinity : 0, duration: .6 + (i % 4) * .1 }} />)}
  </div>
 )
@@ -29,6 +29,6 @@ export const Badge = ({ s }: any) => { const { t } = useI18n(); return <span cla
 export const Ring = ({ v }: any) => (
  <div className="relative h-28 w-28"><svg viewBox="0 0 36 36" className="-rotate-90"><circle cx="18" cy="18" r="15.9" fill="none" stroke="currentColor" strokeOpacity=".15" strokeWidth="3" /><circle cx="18" cy="18" r="15.9" fill="none" stroke="#1f9d5a" strokeWidth="3" strokeLinecap="round" strokeDasharray={`${v} 100`} /></svg><span className="absolute inset-0 grid place-items-center text-xl font-bold">{v}%</span></div>
 )
-export const Mascot = ({ mood = '🙂', children }: any) => <div className="flex items-center gap-3"><span className="text-4xl" aria-hidden>{mood}</span><p className="rounded-2xl rounded-bl-none bg-surface2 px-3 py-2 text-sm">{children}</p></div>
+export const Mascot = ({ mood = '🙂', children }: any) => <div className="flex items-center gap-3"><span className="shrink-0 text-4xl" aria-hidden>{mood}</span><p className="rounded-2xl rounded-bl-none bg-surface2 px-3 py-2 text-sm">{children}</p></div>
 /** A dialect entry. Kannada mode: Kannada script + Kannada meaning only (the Latin romanisation is hidden). English mode: script, romanisation and English meaning. */
-export const Phrase = ({ e }: any) => { const { kn, tr } = useI18n(); return <div><div className="font-kn text-2xl font-bold">{e.kn}</div>{!kn && e.rom && <div className="text-sm">{e.rom}</div>}<div className="text-xs text-muted">{kn ? tr(e.en) : e.en}</div></div> }
+export const Phrase = ({ e }: any) => { const { kn, tr } = useI18n(); return <div className="min-w-0"><div className="font-kn text-2xl font-bold">{e.kn}</div>{!kn && e.rom && <div className="text-sm">{e.rom}</div>}<div className="text-xs text-muted">{kn ? tr(e.en) : e.en}</div></div> }

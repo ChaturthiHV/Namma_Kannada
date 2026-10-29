@@ -6,7 +6,7 @@ const mods = [['/map', 'Explore Karnataka Map', Map], ['/battle', 'Dialect Battl
 export default function ModuleCards() {
  const { t } = useI18n()
  return (
-  <div className="grid min-w-0 grid-cols-2 content-start gap-3 md:grid-cols-3">
+  <div className="grid min-w-0 grid-cols-1 content-start gap-3 min-[400px]:grid-cols-2 md:grid-cols-3">
    {mods.map(([h, l, Icon]) => (
     <Link key={l} href={h} className="flex items-center gap-3 rounded-xl border border-border bg-surface2 p-3 text-sm font-semibold leading-snug text-maroon shadow-card transition hover:shadow-glow dark:text-gold">
      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-surface"><Icon size={22} strokeWidth={1.8} /></span>

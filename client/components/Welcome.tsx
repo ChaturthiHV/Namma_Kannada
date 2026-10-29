@@ -11,9 +11,9 @@ export default function Welcome() {
   const regionName = r ? L.region(r.id) : t('Not selected')
   const district = u.district ? L.district(u.district) : t('Not selected')
   return (
-    <div className="mx-5 mt-5 flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-surface p-4 shadow-card">
-      <span className="grid h-11 w-11 place-items-center rounded-full text-white" style={{ background: r?.c || '#8b1a1a' }}><MapPin size={20} /></span>
-      <div className="min-w-0 flex-1">
+    <div className="mx-4 mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-surface p-4 shadow-card sm:mx-5 sm:mt-5">
+      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-white" style={{ background: r?.c || '#8b1a1a' }}><MapPin size={20} /></span>
+      <div className="min-w-0 flex-1 basis-48">
         <p className="font-display text-lg font-bold text-maroon dark:text-gold">{t('Namaskara, {name}!', { name: L.nm(u.name) })}</p>
         <p className="text-sm text-muted">
           {t('Your dialect: ')}<b className="text-ink">{regionName}</b>
@@ -21,7 +21,7 @@ export default function Welcome() {
           {t('. Both are highlighted on the map below.')}
         </p>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
         <LangToggle className="flex items-center gap-1.5 rounded-full border border-border bg-surface2 px-3 py-1.5 text-xs font-semibold hover:border-primary transition" />
         <Link href="/profile" className="flex items-center gap-1.5 rounded-full border border-border bg-surface2 px-3 py-1.5 text-xs font-semibold hover:border-primary transition"><UserIcon size={14} />{t('Profile')}</Link>
         <button onClick={logout} className="flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-semibold hover:border-danger hover:text-danger transition"><LogOut size={14} />{t('Log out')}</button>

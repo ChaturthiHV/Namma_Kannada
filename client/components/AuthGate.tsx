@@ -33,13 +33,13 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
     <>
       {ready && (user ? (
         <>
-          <header className="safe-t sticky top-0 z-30 flex items-center gap-2 border-b border-border bg-page/90 px-4 py-2 backdrop-blur md:hidden">
-            <img src="/logo.png" alt="" className="h-8 w-8 object-contain" />
-            <span className="flex-1 font-display text-lg font-extrabold leading-none"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕರ್ನಾಟಕ' : 'Karnataka'}</span></span><LangToggle className="flex items-center gap-1 rounded-full border border-border bg-surface2 px-2.5 py-1 text-[11px] font-semibold" />
+          <header className="safe-t sticky top-0 z-30 flex items-center gap-2.5 border-b border-border bg-page/95 px-4 py-3 shadow-sm backdrop-blur md:hidden">
+            <img src="/logo.png" alt="" className="h-12 w-12 shrink-0 object-contain" />
+            <span className="min-w-0 flex-1 whitespace-nowrap font-display text-xl font-extrabold leading-tight min-[400px]:text-2xl"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕರ್ನಾಟಕ' : 'Karnataka'}</span></span><LangToggle className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-surface2 px-3 py-1.5 text-xs font-semibold min-[400px]:px-3.5 min-[400px]:py-2 min-[400px]:text-sm" />
           </header>
           <div className="flex min-h-screen">
             <Sidebar />
-            <main className="min-w-0 flex-1 pb-28 md:pb-0 md:pt-[env(safe-area-inset-top)]">{children}</main>
+            <main className="min-w-0 flex-1 overflow-x-hidden pb-32 md:pb-0 md:pt-[env(safe-area-inset-top)]">{children}</main>
           </div>
           <MobileNav />
         </>
@@ -77,9 +77,9 @@ export function AuthScreen({ onSuccess, compact = false }: { onSuccess?: () => v
         <div className="py-6"><RegionMap me={f.region ? { region: f.region, district: f.district } : { region: "", district: "" }} className="mx-auto h-72" /></div>
         <p className="text-xs text-white/70">{f.region ? `${L.region(f.region)}${f.district ? ' · ' + L.district(f.district) : ''}` : t('Pick your Kannada while registering and watch your home light up.')}</p>
       </aside>}
-      <main className={compact ? 'grid place-items-center' : 'grid place-content-center justify-items-center gap-5 p-6'}>
-        {!compact && <div className="flex flex-col items-center lg:hidden"><img src="/logo.png" alt={t('Namma Karnataka')} className="h-28 w-28 object-contain drop-shadow-[0_8px_18px_rgba(0,0,0,.35)]" /><p className="font-display text-3xl font-extrabold leading-none"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕರ್ನಾಟಕ' : 'Karnataka'}</span></p></div>}
-        {mode === 'reset' ? <ResetForm onBack={() => setMode('login')} /> : <form onSubmit={submit} className="w-full max-w-md space-y-4 rounded-2xl bg-surface p-6 shadow-card" noValidate>
+      <main className={compact ? 'grid place-items-center' : 'grid place-content-center justify-items-center gap-5 p-4 sm:p-6'}>
+        {!compact && <div className="flex flex-col items-center text-center lg:hidden"><img src="/logo.png" alt={t('Namma Karnataka')} className="h-24 w-24 object-contain sm:h-28 sm:w-28 drop-shadow-[0_8px_18px_rgba(0,0,0,.35)]" /><p className="font-display text-3xl font-extrabold leading-none"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕರ್ನಾಟಕ' : 'Karnataka'}</span></p></div>}
+        {mode === 'reset' ? <ResetForm onBack={() => setMode('login')} /> : <form onSubmit={submit} className="w-full max-w-md space-y-4 rounded-2xl bg-surface p-4 shadow-card sm:p-6" noValidate>
           <div className="flex rounded-full bg-surface2 p-1 text-sm font-semibold">
             {(['login', 'register'] as const).map(m => <button type="button" key={m} onClick={() => { setMode(m); setErr('') }} className={`flex-1 rounded-full py-2 ${mode === m ? 'bg-primary text-onprimary shadow-glow' : 'text-muted'}`}>{m === 'login' ? t('Login') : t('Register')}</button>)}
           </div>
@@ -91,7 +91,7 @@ export function AuthScreen({ onSuccess, compact = false }: { onSuccess?: () => v
             <fieldset><legend className="mb-2 text-xs font-semibold text-muted">{t('Which Kannada do you speak?')}</legend>
               <div className="grid grid-cols-2 gap-2">
                 {REGIONS.map(r => <button type="button" key={r.id} onClick={() => set('region', r.id)} aria-pressed={f.region === r.id}
-                  className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs ${f.region === r.id ? 'border-primary bg-primary font-semibold text-onprimary' : 'border-border bg-surface2'}`}>
+                  className={`flex min-w-0 items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-xs ${f.region === r.id ? 'border-primary bg-primary font-semibold text-onprimary' : 'border-border bg-surface2'}`}>
                   <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: r.c }} />{L.region(r.id)}</button>)}
               </div></fieldset>
             <select value={f.district} onChange={e => set('district', e.target.value)} disabled={!f.region} aria-label={t('District')} className="w-full rounded-xl border border-border bg-surface2 px-3 py-2.5 text-sm text-ink disabled:opacity-50">
@@ -126,7 +126,7 @@ function ResetForm({ onBack }: { onBack: () => void }) {
     setBusy(true); const m = await resetPassword(phone, code, pw); setBusy(false); if (m) setErr(m)
   }
   return (
-    <form onSubmit={submit} className="w-full max-w-md space-y-4 rounded-2xl bg-surface p-6 shadow-card" noValidate>
+    <form onSubmit={submit} className="w-full max-w-md space-y-4 rounded-2xl bg-surface p-4 shadow-card sm:p-6" noValidate>
       <h1 className="font-display text-2xl font-bold text-maroon dark:text-gold">{t('Reset password')}</h1>
       <Field icon={Phone} placeholder={t('Phone number (10 digits)')} aria-label={t('Phone number (10 digits)')} inputMode="numeric" maxLength={10} value={phone} onChange={(e: any) => { setErr(''); setPhone(e.target.value.replace(/\D/g, '')) }} />
       {!sent ? <button type="button" disabled={busy} onClick={send} className="w-full rounded-full bg-primary py-3 font-semibold text-onprimary shadow-glow disabled:opacity-60">{busy ? t('Please wait…') : t('Send code')}</button> : <>
