@@ -49,7 +49,7 @@ Also included:
 
 - **Light and dark theme** and a Kannada/English switch on every page.
 - **Home region highlight:** after sign-up, your own dialect area glows on the maps and a pin marks your district.
-- **Word of the Day**, leaderboard, and streaks (one missed day is forgiven automatically).
+- **Word of the Day**, leaderboard, and streaks.
 - **Open Dictionary export** of all verified entries as JSON or CSV.
 
 ## How contributions are verified
@@ -229,8 +229,6 @@ Accounts are keyed by a 10-digit Indian mobile number and a password. There are 
 | `contributor` | Submit words, suggest corrections, vote on entries from their own dialect. |
 | `reviewer` | Approve, reject or dispute entries, roll back edits, add cultural notes, handle reports. |
 | `admin` | Everything a reviewer can, plus manage users and roles. |
-
-There is **no separate admin web page**. The admin is a normal account (created by `db:migrate` from `ADMIN_PHONE` and `ADMIN_PASSWORD`) that logs in on the normal login screen. Its extra rights apply to the server's reviewer and admin endpoints.
 
 ## API reference
 
