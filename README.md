@@ -30,8 +30,6 @@ The whole interface works in **English** and in **ಕನ್ನಡ**, switchable 
 
 ## Features
 
-The app has a sidebar (bottom navigation on phones) with these sections:
-
 | Page | What it does |
 |---|---|
 | **Home** | Hero with a search box and a Word of the Day, shortcut tiles to the main sections, an interactive **Explore by Region** map, a Featured Word with audio, and a "Keep Kannada Alive" call to action. |
