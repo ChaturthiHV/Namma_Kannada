@@ -51,7 +51,6 @@ Also included:
 - **Home region highlight:** after sign-up, your own dialect area glows on the maps and a pin marks your district.
 - **Word of the Day**, leaderboard, and streaks (one missed day is forgiven automatically).
 - **Open Dictionary export** of all verified entries as JSON or CSV.
-- **Installable on phones** as a progressive web app.
 
 ## How contributions are verified
 
