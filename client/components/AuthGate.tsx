@@ -35,7 +35,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         <>
           <header className="safe-t sticky top-0 z-30 flex items-center gap-2.5 border-b border-border bg-page/95 px-4 py-3 shadow-sm backdrop-blur md:hidden">
             <img src="/logo.png" alt="" className="h-12 w-12 shrink-0 object-contain" />
-            <span className="min-w-0 flex-1 whitespace-nowrap font-display text-xl font-extrabold leading-tight min-[400px]:text-2xl"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕರ್ನಾಟಕ' : 'Karnataka'}</span></span><LangToggle className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-surface2 px-3 py-1.5 text-xs font-semibold min-[400px]:px-3.5 min-[400px]:py-2 min-[400px]:text-sm" />
+            <span className="min-w-0 flex-1 whitespace-nowrap font-display text-xl font-extrabold leading-tight min-[400px]:text-2xl"><span className="text-[#d99a00] dark:text-gold">{kn ? 'ನಮ್ಮ' : 'Namma'}</span> <span className="text-[#c8202a]">{kn ? 'ಕನ್ನಡ' : 'Kannada'}</span></span><LangToggle className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-surface2 px-3 py-1.5 text-xs font-semibold min-[400px]:px-3.5 min-[400px]:py-2 min-[400px]:text-sm" />
           </header>
           <div className="flex min-h-screen">
             <Sidebar />
