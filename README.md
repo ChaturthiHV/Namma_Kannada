@@ -7,7 +7,6 @@ Namma Kannada is a web app for exploring, hearing, comparing and preserving the 
 The whole interface works in **English** and in **ಕನ್ನಡ**, switchable at any time.
 
 ---
-
 ## Contents
 
 1. [Features](#features)
